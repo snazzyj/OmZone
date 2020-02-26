@@ -1,74 +1,59 @@
 import React, { Component } from 'react';
-// import TimerInput from '../timerInput/timerinput'
-// import StartButton from '../start/start'
 import MeditationContext from '../meditationcontext';
-import CountdownTimer from 'react-component-countdown-timer';
 
 class Timer extends Component {
 
   static contextType = MeditationContext
-
   constructor() {
     super();
-    this.state = {
-      time: 0,
-      timeRemaining: 0
-    }
+    this.state = { 
+      time: {}, 
+      seconds: 0,
+      timer: 0
+    };
+    this.timer = 0;
+    this.startTimer = this.startTimer.bind(this);
+    this.countDown = this.countDown.bind(this);
   }
 
-  // componentDidMount() {
-    
-  //   let {time, timeRemaining} = this.state
+  secondsToTime(secs) {
+    console.log({ secs })
+    let divisor_for_minutes = secs % (60 * 60);
+    let minutes = Math.floor(divisor_for_minutes / 60);
 
-  //   let seconds = Math.floor(timeRemaining * 60)
-  //   this.setState({
-  //     timeRemaining: seconds
-  //   })
-  //   console.log({seconds})
-    
-  // }
+    let divisor_for_seconds = divisor_for_minutes % 60;
+    let seconds = Math.ceil(divisor_for_seconds);
 
-  setTimer = (event) => {
-    
-    let minutes = parseInt(event.target.value)
-
-    console.log({minutes})
-    
-    this.setState({
-      time: minutes,
-      timeRemaining: minutes
-    })
-  }
-
-  startCountdown = () => {
-
-    let {timeRemaining} = this.state;
-
-    let seconds = Math.floor(timeRemaining * 60);
-
-    this.setState({
-      timeRemaining: seconds
-    })
-
-    console.log(this.state.timeRemaining)
-
+    let obj = {
+      "m": minutes,
+      "s": seconds
+    };
+    return obj;
   }
 
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
-    console.log({timeLeftVar})
     this.setState({ time: timeLeftVar });
   }
 
-  startTimer = () => {
-    if(this.timer === 0 && this.state.seconds > 0) {
+  componentDidUpdate(prevState) {
+    if (this.state !== prevState) { }
+  }
+
+  setTime = (e) => {
+    this.setState({
+      seconds: parseInt(e.target.value)
+    })
+  }
+
+  startTimer() {
+    if (this.timer === 0 && this.state.seconds > 0) {
       this.timer = setInterval(this.countDown, 1000)
     }
   }
 
-  countDown = () => {
+  countDown() {
     // Remove one second, set state so a re-render happens.
-    console.log('click')
     let seconds = this.state.seconds - 1;
     this.setState({
       time: this.secondsToTime(seconds),
@@ -77,34 +62,24 @@ class Timer extends Component {
 
     // Check if we're at zero.
     if (seconds === 0) {
-      clearInterval(this.timer);
+      clearInterval(this.timer)
     }
   }
 
   render() {
-
-    const { minutes, seconds } = this.state
-
     console.log(this.state)
-
+    // let time = this.state.timer
+    let timer = this.timer;
+    console.log({timer})
+    // console.log({time})
     return (
       <div>
-        <div style={{ marginLeft: 100 }}>
-          <h3>Input your desired time</h3>
-          <input type="number" onChange={this.setTimer} required />
-        </div>
-        {/* <h1>Hello world from timer</h1> */}
-        {/* <TimerInput minutes={minutes} 
-        // handleChange={this.handleChange} 
-        /> */}
-        <h1 style={{ fontSize: 100, marginLeft: 100 }}>
-          {minutes}:{seconds}
-        </h1>
-        <div style={{ marginLeft: 130 }}>
-          <button onClick={this.startTimer}>Start</button>
-        </div>
+        <input type="number" onChange={this.setTime} required />
+        <button onClick={this.startTimer}>Start</button>
+        m: {this.state.time.m} s: {this.state.time.s}
       </div>
     );
   }
 }
+
 export default Timer
