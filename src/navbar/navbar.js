@@ -9,7 +9,6 @@ class NavBar extends Component {
                 <Link to="/">Om Zone</Link>
                 <Link to="/profile">Profile</Link>
                 <Link to="/timer">Meditate</Link>
-
                 </nav>
             </div>
         )

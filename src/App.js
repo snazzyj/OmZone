@@ -4,6 +4,9 @@ import MeditationContext from './meditationcontext';
 import NavBar from './navbar/navbar';
 import Profile from './profile/profile'
 import Timer from './timer/timer';
+import Login from './login/login';
+import Signup from './signup/signup';
+import Homepage from './homepage/homepage';
 import './App.css';
 
 class App extends Component {
@@ -14,15 +17,28 @@ class App extends Component {
       name: '',
       email: '',
       id: 0,
+      isLoggedIn: false,
+      userData: []
     },
 
+  }
+
+  setUserLogin = user => {
+    this.setState({
+      name: user.name,
+      email: user.email,
+      id: user.id,
+      isLoggedIn: true,
+      userData: user.data
+    })
   }
 
   render() {
     console.log(this.state)
 
     const contextValue = {
-      user: this.state.user
+      user: this.state.user,
+      setUserLogin: this.setUserLogin
     }
 
     return (
@@ -32,9 +48,14 @@ class App extends Component {
         <MeditationContext.Provider value={contextValue}>
           <NavBar />
           <main>
+
+            
             <Switch>
-              <Route path="/profile" component={Profile} />
+              <Route exact path="/" component={Homepage} />
+              <Route path="/profile/:id" component={Profile} />
               <Route path="/timer" component={Timer} />
+              <Route path="/login" component={Login} />
+              <Route path="signup" component={Signup} />
             </Switch>
           </main>
         </MeditationContext.Provider>
