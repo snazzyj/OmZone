@@ -51,12 +51,13 @@ class Timer extends Component {
   static contextType = MeditationContext
   constructor() {
     super();
-    this.state = { 
-      time: {}, 
+    this.state = {
+      time: {},
       seconds: 0,
       timer: 0,
       audio: bell,
-      backgound: ''
+      backgound: '',
+      isStarted: false
     };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
@@ -81,6 +82,7 @@ class Timer extends Component {
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
+    clearInterval(this.timer);
   }
 
   componentDidUpdate(prevState) {
@@ -91,7 +93,7 @@ class Timer extends Component {
     document.body.style.backgroundImage = `url(${image})`
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     clearInterval(this.timer);
   }
 
@@ -102,37 +104,33 @@ class Timer extends Component {
   }
 
   startTimer = () => {
-    const {audio} = this.state
+    const { audio } = this.state
     if (this.timer === 0 && this.state.seconds > 0) {
       audio.play();
       this.timer = setInterval(this.countDown, 1000);
+      this.setState({ isStarted: true })
     }
   }
-  
+
   countDown = () => {
     // Remove one second, set state so a re-render happens.
-    const {audio} = this.state
+    const { audio } = this.state
     let seconds = this.state.seconds - 1;
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
     });
-    
+
     // Check if we're at zero.
     if (seconds === 0) {
       audio.play();
       clearInterval(this.timer)
     }
   }
-  
-  setBellCue = (event) => {
-    console.log(event.currentTarget.value)
+
+  setSoundCue = (event) => {
     let value = event.currentTarget.value;
-
     const soundOption = soundCues.find(audio => audio.id === value)
-    console.log(soundOption)
-
-
     this.setState({
       audio: soundOption.sound
     })
@@ -140,41 +138,47 @@ class Timer extends Component {
 
   setBackground = (event) => {
     let value = event.currentTarget.value;
-
     let newBg = backgrounds.find(bg => bg.id === value)
-    console.log(newBg)
-
     this.setState({
       backgound: newBg.background
     })
   }
-  
+
   render() {
     console.log(this.state)
-    console.log(backgrounds)
     // let time = this.state.timer
     let timer = this.timer;
-    console.log({timer})
-    
+    const { isStarted } = this.state
+    console.log({ timer })
+
     return (
-      <section>
+      <section className="timerSection">
         <div>
-        <input type="number" onChange={this.setTime} required />
-        <button onClick={this.startTimer}>Start</button>
-        m: {this.state.time.m} s: {this.state.time.s}
+          <p>Minutes: {this.state.time.m} Seconds: {this.state.time.s}</p>
+          <p>{this.state.time.m}<span>:</span>{this.state.time.s}</p>
         </div>
-
         <div>
-          <button onClick={this.setBellCue} value="Bell">Bell</button>
-          <button onClick={this.setBellCue} value="Cymbal">Cymbal</button>
-          <button onClick={this.setBellCue} value="Gong">Gong</button>
+          <input type="number" onChange={this.setTime} required />
+          <div>
+            <ul>
+              {soundCues.map(item => {
+                return (
+                  <li key={item.id} onClick={() => this.setState({ audio: item.sound })} style={{ cursor: "pointer", padding: '10px', margin: '10px' }}>
+                    {item.id}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+          <div>
+            <button onClick={this.setBackground} value="Mountains">Mountains</button>
+            <button onClick={this.setBackground} value="Rocks">Rocks</button>
+            <button onClick={this.setBackground} value="Beach">Beach</button>
+            <button onClick={this.setBackground} value="River">River</button>
+          </div>
         </div>
-
         <div>
-          <button onClick={this.setBackground} value="Mountains">Mountains</button>
-          <button onClick={this.setBackground} value="Rocks">Rocks</button>
-          <button onClick={this.setBackground} value="Beach">Beach</button>
-          <button onClick={this.setBackground} value="River">River</button>
+          <button onClick={this.startTimer} disabled={isStarted}>Start</button>
         </div>
       </section>
     );

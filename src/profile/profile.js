@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
-import BarChart from '../barchart/barchart';
+import BarGraph from '../bargraph/bargraph';
+import MeditationContext from '../meditationcontext';
 
 
 class Profile extends Component {
+
+    static contextType = MeditationContext;
     render() {
+        const {user} = this.context;
 
         return(
-            <section>
-                <BarChart />
+            <section className="profileSection">
+                <BarGraph />
             </section>
         )
     }

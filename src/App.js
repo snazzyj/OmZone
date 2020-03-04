@@ -18,7 +18,13 @@ class App extends Component {
       email: '',
       id: 0,
       isLoggedIn: false,
-      userData: []
+      medData: [{ date: 'Mar 1st 2020', minutes: 10 },
+      { date: 'Mar 2nd 2020', minutes: 15 },
+      { date: 'Mar 3rd 2020', minutes: 5 },
+      { date: 'Mar 4th 2020', minutes: 20 },
+      { date: 'Mar 5th 2020', minutes: 25 },
+      { date: 'Mar 6th 2020', minutes: 15 },
+      { date: 'Mar 7th 2020', minutes: 10 },]
     },
 
   }
@@ -48,7 +54,6 @@ class App extends Component {
         <MeditationContext.Provider value={contextValue}>
           <NavBar />
           <main>
-
             
             <Switch>
               <Route exact path="/" component={Homepage} />
