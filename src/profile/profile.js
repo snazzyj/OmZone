@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
+import BarChart from '../barchart/barchart';
+
 
 class Profile extends Component {
     render() {
+
         return(
-            <h1>Hello world from Profile</h1>
+            <section>
+                <BarChart />
+            </section>
         )
     }
 }
