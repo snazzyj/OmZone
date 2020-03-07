@@ -8,26 +8,35 @@ class Profile extends Component {
     static contextType = MeditationContext;
 
     countTotalMinutes = (user) => {
-        let total = user.medData
-        .map((element) => {
-            return element.minutes
-        })
-        .reduce((prev, curr) => {
-            return prev+curr
-        })
-        return total
+
+        if(user.medData.length !== 0) {
+            let total = user.medData
+            .map((element) => {
+                return element.minutes
+            })
+            .reduce((prev, curr) => {
+                return prev+curr
+            })
+            return total
+        } else {
+            return 0;
+        }
     }
 
     getAverage = (user) => {
-        let average = user.medData
-        .map((element) => {
-            return element.minutes
-        })
-        .reduce((prev, curr) => {
-            return prev+curr
-        }) / user.medData.length;
-
-        return Math.round(average);
+        if(user.medData.length !== 0 ) {
+            let average = user.medData
+            .map((element) => {
+                return element.minutes
+            })
+            .reduce((prev, curr) => {
+                return prev+curr
+            }) / user.medData.length;
+    
+            return Math.round(average);
+        } else {
+            return 0;
+        }
     }
 
     render() {

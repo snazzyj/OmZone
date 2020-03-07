@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MeditationContext from './meditationcontext';
 import NavBar from './navbar/navbar';
 import Profile from './profile/profile'
-import Timer from './timer/timer';
 import Login from './login/login';
 import Signup from './signup/signup';
 import Homepage from './homepage/homepage';
@@ -16,17 +15,10 @@ class App extends Component {
     {
       name: '',
       email: '',
-      id: 1,
-      isLoggedIn: true,
-      medData: [{ date: 'Mar 1st 2020', minutes: 10 },
-      { date: 'Mar 2nd 2020', minutes: 15 },
-      { date: 'Mar 3rd 2020', minutes: 30 },
-      { date: 'Mar 4th 2020', minutes: 20 },
-      { date: 'Mar 5th 2020', minutes: 25 },
-      { date: 'Mar 6th 2020', minutes: 15 },
-      { date: 'Mar 7th 2020', minutes: 10 },]
-    },
-
+      id: 0,
+      isLoggedIn: false,
+      medData: [],
+    }
   }
 
   componentDidUpdate(prevState) {
@@ -34,13 +26,30 @@ class App extends Component {
   }
 
   setUserLogin = user => {
+    // this.setState({
+    //   user: {
+    //     name: user.name,
+    //     email: user.email,
+    //     id: user.id,
+    //     isLoggedIn: true,
+    //     medData: user.data
+    //   }
+    // })
     this.setState({
       user: {
-        name: user.name,
+        name: 'Foo',
         email: user.email,
-        id: user.id,
+        id: 1,
         isLoggedIn: true,
-        userData: user.data
+        // medData: []
+        medData: [{ date: 'Mar 1st 2020', minutes: 10 },
+                  { date: 'Mar 2nd 2020', minutes: 15 },
+                  { date: 'Mar 3rd 2020', minutes: 30 },
+                  { date: 'Mar 4th 2020', minutes: 20 },
+                  { date: 'Mar 5th 2020', minutes: 25 },
+                  { date: 'Mar 6th 2020', minutes: 15 },
+                  { date: 'Mar 7th 2020', minutes: 10 },
+                ]
       }
     })
   }

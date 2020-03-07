@@ -92,7 +92,6 @@ class Signup extends Component {
                     <button className="signupBtn">Submit</button>
 
                 </form>
-                        <p>Already have an account? <Link to="/login">Login</Link></p>
             </div>
         )
     }
