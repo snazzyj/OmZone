@@ -65,7 +65,6 @@ class Timer extends Component {
   }
 
   secondsToTime(secs) {
-    console.log({ secs })
     let divisor_for_minutes = secs % (60 * 60);
     let minutes = Math.floor(divisor_for_minutes / 60);
 
@@ -94,6 +93,7 @@ class Timer extends Component {
   }
 
   componentWillUnmount() {
+    document.body.style.backgroundImage = 'none';
     clearInterval(this.timer);
   }
 

@@ -21,7 +21,7 @@ class Login extends Component {
         }
         if(email.value === 'test@gmail.com' && password.value === "Password") {
             this.context.setUserLogin(user)
-            this.props.history.push('/timer')
+            // this.props.history.push('/')
         }
     }
 

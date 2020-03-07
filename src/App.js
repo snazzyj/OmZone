@@ -16,11 +16,11 @@ class App extends Component {
     {
       name: '',
       email: '',
-      id: 0,
-      isLoggedIn: false,
+      id: 1,
+      isLoggedIn: true,
       medData: [{ date: 'Mar 1st 2020', minutes: 10 },
       { date: 'Mar 2nd 2020', minutes: 15 },
-      { date: 'Mar 3rd 2020', minutes: 5 },
+      { date: 'Mar 3rd 2020', minutes: 30 },
       { date: 'Mar 4th 2020', minutes: 20 },
       { date: 'Mar 5th 2020', minutes: 25 },
       { date: 'Mar 6th 2020', minutes: 15 },
@@ -29,19 +29,23 @@ class App extends Component {
 
   }
 
+  componentDidUpdate(prevState) {
+    if(this.state.user !== prevState.user) {}
+  }
+
   setUserLogin = user => {
     this.setState({
-      name: user.name,
-      email: user.email,
-      id: user.id,
-      isLoggedIn: true,
-      userData: user.data
+      user: {
+        name: user.name,
+        email: user.email,
+        id: user.id,
+        isLoggedIn: true,
+        userData: user.data
+      }
     })
   }
 
   render() {
-    console.log(this.state)
-
     const contextValue = {
       user: this.state.user,
       setUserLogin: this.setUserLogin
@@ -50,21 +54,19 @@ class App extends Component {
     return (
       <div className="App">
 
-      <BrowserRouter>
-        <MeditationContext.Provider value={contextValue}>
-          <NavBar />
-          <main>
-            
-            <Switch>
-              <Route exact path="/" component={Homepage} />
-              <Route path="/profile/:id" component={Profile} />
-              <Route path="/timer" component={Timer} />
-              <Route path="/login" component={Login} />
-              <Route path="signup" component={Signup} />
-            </Switch>
-          </main>
-        </MeditationContext.Provider>
-      </BrowserRouter>
+        <BrowserRouter>
+          <MeditationContext.Provider value={contextValue}>
+            <NavBar />
+            <main>
+              <Switch>
+                <Route exact path="/" component={Homepage}/>
+                <Route path="/profile/:id" component={Profile} />
+                <Route path="/login" component={Login} />
+                <Route path="signup" component={Signup} />
+              </Switch>
+            </main>
+          </MeditationContext.Provider>
+        </BrowserRouter>
       </div>
     );
   }

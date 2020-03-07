@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import MeditationContext from '../meditationcontext';
 
 class NavBar extends Component {
+    static contextType = MeditationContext;
     render() {
+        console.log(this.context.user)
+        const {isLoggedIn, id} = this.context.user;
         return(
             <div>
                 <nav>
                 <Link to="/">Om Zone</Link>
-                <Link to="/profile">Profile</Link>
-                <Link to="/timer">Meditate</Link>
+                {isLoggedIn && 
+                <Link to={`/profile/${id}`}>Profile</Link>
+                }
                 </nav>
             </div>
         )

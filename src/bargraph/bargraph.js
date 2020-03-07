@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BarChart, XAxis, YAxis, Bar, Text, ResponsiveContainer, Tooltip } from 'recharts'
+import { BarChart, XAxis, YAxis, Bar, Text, ResponsiveContainer, Tooltip, Label } from 'recharts'
 import MeditationContext from '../meditationcontext';
 
 class BarGraph extends Component {
@@ -7,10 +7,7 @@ class BarGraph extends Component {
     static contextType = MeditationContext;
 
     render() {
-
         const { medData } = this.context.user
-        console.log(medData)
-
         return (
             <div>
 
@@ -19,9 +16,12 @@ class BarGraph extends Component {
                     data={medData}
                     margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
                 >
-                    <XAxis dataKey="date" tick={{ fill: 'black' }} />
+                    <XAxis dataKey="date" tick={{ fill: 'black' }}>
+                        <Label value="Date" position="insideBottom" offset={-5}/>    
+                    </XAxis>
 
-                    <YAxis tickCount={7} tick={{fontSize: 15}} label={
+                    <YAxis tickCount={7} tick={{fontSize: 15}} 
+                    label={
                         <Text
                             x={0}
                             y={0}
