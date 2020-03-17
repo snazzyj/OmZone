@@ -17,7 +17,7 @@ class App extends Component {
       name: '',
       email: '',
       id: 0,
-      isLoggedIn: true,
+      isLoggedIn: false,
       totalTime: 0,
       medData: [],
     },
