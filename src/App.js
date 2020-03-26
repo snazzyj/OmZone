@@ -11,17 +11,19 @@ import './App.css';
 
 class App extends Component {
 
-  state = {
-    user:
-    {
-      name: '',
-      email: '',
-      id: 0,
-      isLoggedIn: false,
-      totalTime: 0,
-      medData: [],
-    },
-    shouldBeAwake: true
+  constructor(props) {
+    super(props);
+    this.state = {
+      user:
+      {
+        id: 0,
+        isLoggedIn: false,
+        medData: [],
+        lifetime: {},
+        totalTime: 0
+      },
+      shouldBeAwake: true
+    }
   }
 
   componentDidMount() {
@@ -32,31 +34,48 @@ class App extends Component {
   }
 
   setUserLogin = user => {
-    // this.setState({
-    //   user: {
-    //     name: user.name,
-    //     email: user.email,
-    //     id: user.id,
-    //     isLoggedIn: true,
-    //     totalTime: user.totalTime,
-    //     medData: user.data
-    //   }
-    // })
     this.setState({
       user: {
-        name: 'Foo',
-        email: user.email,
-        id: 1,
+        id: user.id,
         isLoggedIn: true,
-        totalTime: 1600,
-        medData: [{ date: 'Mar 1st 2020', Minutes: 10 },
-                  { date: 'Mar 2nd 2020', Minutes: 15 },
-                  { date: 'Mar 3rd 2020', Minutes: 30 },
-                  { date: 'Mar 4th 2020', Minutes: 20 },
-                  { date: 'Mar 5th 2020', Minutes: 25 },
-                  { date: 'Mar 6th 2020', Minutes: 15 },
-                  { date: 'Mar 7th 2020', Minutes: 10 },
-                ]
+        medData: user.medData,
+        lifetime: this.convertMinutes(user.totalTime),
+        totalTime: user.totalTime
+      }
+    })
+  }
+
+  countTotalMinutes = (array) => {
+    if(array.length === 0) {return 0}
+    return array.reduce((a,b) => ({minutes: a.minutes + b.minutes}));
+  }
+  
+  convertMinutes = (number) => {
+    if(number === 0) {return 0}
+    let days = Math.floor(number / 1440);
+    let hours = Math.floor((number % 1440) / 60);
+    let mins = number % 60;
+
+    return {days, hours, mins}
+  }
+
+  updateUserData = (newLog) => {
+    let {medData, totalTime} = this.state.user;
+    const {minutes} = newLog
+    let newTotal = totalTime + minutes;
+    let updated = medData;
+
+    updated.pop();
+    updated.push(newLog)
+
+    let newLiftetime = this.convertMinutes(newTotal)
+
+    this.setState({
+      user: {
+        ...this.state.user,
+        medData: updated,
+        lifetime: newLiftetime,
+        totalTime: newTotal
       }
     })
   }
@@ -71,7 +90,8 @@ class App extends Component {
   render() {
     const contextValue = {
       user: this.state.user,
-      setUserLogin: this.setUserLogin
+      setUserLogin: this.setUserLogin,
+      updateUserData: this.updateUserData
     }
 
     return (

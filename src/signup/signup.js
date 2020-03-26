@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import AuthApiService from '../services/auth-api-service'
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i); // eslint-disable-line
 const validPasswordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
@@ -21,11 +22,11 @@ class Signup extends Component {
 
     handleEmail = (event) => {
         event.preventDefault();
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         let errors = this.state.errors;
 
-        if(name === 'email') {
-            errors.email = 
+        if (name === 'email') {
+            errors.email =
                 validEmailRegex.test(value)
                     ? ''
                     : 'Email is not valid'
@@ -39,14 +40,14 @@ class Signup extends Component {
 
     handlePassword = (event) => {
         event.preventDefault();
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         let errors = this.state.errors
 
-        if(name === 'password') {
-            errors.password = 
-            validPasswordRegex.test(value)
-                ? ''
-                : 'Must contain a Number, Upper case letter, Lower case letter and be 6 to 20 characters long'
+        if (name === 'password') {
+            errors.password =
+                validPasswordRegex.test(value)
+                    ? ''
+                    : 'Must contain a Number, Upper case letter, Lower case letter and be 6 to 20 characters long'
         }
 
         this.setState({
@@ -58,16 +59,39 @@ class Signup extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        const {name, email, password} = event.target;
-        this.setState({
-            error: null
-        })
+        const { name, email, password } = event.target;
 
-        console.log(email.value, password.value, name.value)
+        if (password.value.length >= 6) {
+            this.setState({
+                error: null
+            })
+
+            AuthApiService.postUser({
+                name: name.value,
+                email: email.value,
+                password: password.value
+            })
+                .then(user => {
+                    name.value = '';
+                    email.value = '';
+                    password.value = ''
+                })
+                .catch(res => {
+                    this.setState({
+                        error: res.error
+                    })
+                })
+        } else {
+            this.setState({
+                error: 'Invalid Password'
+            })
+        }
+
+
     }
-    
+
     render() {
-        const {errors} = this.state;
+        const { errors } = this.state;
         return (
             <div className="signupSection">
 

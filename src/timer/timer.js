@@ -122,10 +122,10 @@ class Timer extends Component {
 
   startTimer = () => {
     const { soundCue, backgroundSound, isMuted } = this.state
-    
+
     if (this.timer === 0 && this.state.seconds > 0) {
       soundCue.play();
-      if(!isMuted && backgroundSound !== null) {
+      if (!isMuted && backgroundSound !== null) {
         backgroundSound.play();
       }
       this.timer = setInterval(this.countDown, 1000);
@@ -136,7 +136,7 @@ class Timer extends Component {
   countDown = () => {
     const { soundCue, backgroundSound } = this.state
 
-    if(backgroundSound !== null) {
+    if (backgroundSound !== null) {
       backgroundSound.loop = true;
     }
     // Remove one second, set state so a re-render happens.
@@ -148,7 +148,7 @@ class Timer extends Component {
 
     // Check if we're at zero.
     if (seconds === 0) {
-      if(backgroundSound !== null) {
+      if (backgroundSound !== null) {
         backgroundSound.pause();
         backgroundSound.currentTime = 0;
       }
@@ -181,14 +181,14 @@ class Timer extends Component {
 
   //mutes background sound
   muteBackgroundAudio = () => {
-    const {isMuted} = this.state
+    const { isMuted } = this.state
     this.setState({
       isMuted: !isMuted
     })
   }
 
   render() {
-    const {isStarted, desiredTime} = this.state
+    const { isStarted, desiredTime } = this.state
 
     return (
       <section className="timerSection">
@@ -198,9 +198,9 @@ class Timer extends Component {
         <div>
           <input type="number" onChange={this.setTime} required />
           <div>
-              <button onClick={this.setSoundCue} value="Bell">Bell</button>
-              <button onClick={this.setSoundCue} value="Gong">Gong</button>
-              <button onClick={this.setSoundCue} value="Cymbal">Cymbal</button>
+            <button onClick={this.setSoundCue} value="Bell">Bell</button>
+            <button onClick={this.setSoundCue} value="Gong">Gong</button>
+            <button onClick={this.setSoundCue} value="Cymbal">Cymbal</button>
           </div>
           <div>
             <audio preload="auto">
@@ -221,7 +221,7 @@ class Timer extends Component {
         </div>
 
         <div>
-          { this.state.isCompleted && <Completed minutes={desiredTime}/> }
+          {this.state.isCompleted && <Completed minutes={desiredTime} id={this.context.user.id} />}
         </div>
       </section>
     );

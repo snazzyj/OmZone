@@ -1,7 +1,8 @@
 import React from 'react';
 
 const MeditationContext = React.createContext({
-    setUserLogin: () => {}
+    setUserLogin: () => {},
+    updateUserData: () => {}
 })
 
 export default MeditationContext

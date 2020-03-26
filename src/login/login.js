@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import MeditationContext from '../meditationcontext';
+import AuthApiService from '../services/auth-api-service';
 
 class Login extends Component {
 
@@ -14,14 +15,21 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {email, password} = e.target;
-        const user = {
+        const { email, password } = e.target;
+
+        AuthApiService.postLogin({
             email: email.value,
             password: password.value
-        }
-        if(email.value === 'test@gmail.com' && password.value === "Password") {
-            this.context.setUserLogin(user)
-        }
+        })
+            .then(res => {
+                const { user } = res;
+                this.context.setUserLogin(user)
+            })
+            .catch(error => {
+                this.setState({
+                    error
+                })
+            })
     }
 
     render() {
@@ -32,15 +40,14 @@ class Login extends Component {
 
                 <form className="loginForm" onSubmit={this.handleSubmit}>
                     <label htmlFor="email">Email</label>
-                    <input name="email" type="email" required/>
+                    <input name="email" type="email" required />
                     <label htmlFor="password">Password</label>
                     <input name="password" required />
                     {/* <input name="password" type="password" required /> */}
                     <button className="loginBtn" type="submit">Login</button>
                 </form>
                 <p>
-                {this.state.error}
-
+                    {this.state.error}
                 </p>
             </div>
         )

@@ -12,7 +12,7 @@ class Profile extends Component {
         if (user.medData.length !== 0) {
             let total = user.medData
                 .map((element) => {
-                    return element.Minutes
+                    return element.minutes
                 })
                 .reduce((prev, curr) => {
                     return prev + curr
@@ -27,7 +27,7 @@ class Profile extends Component {
         if (user.medData.length !== 0) {
             let average = user.medData
                 .map((element) => {
-                    return element.Minutes
+                    return element.minutes
                 })
                 .reduce((prev, curr) => {
                     return prev + curr
@@ -39,23 +39,9 @@ class Profile extends Component {
         }
     }
 
-    convertMinutes = (user) => {
-        const { totalTime } = user;
-        let days = Math.floor(totalTime / 1440);
-        let hours = Math.floor((totalTime % 1440) / 60);
-        let mins = totalTime % 60;
-
-        let data = {
-            Days: days,
-            Hours: hours,
-            Minutes: mins
-        }
-        return data
-    }
-
     render() {
         const { user } = this.context;
-        const time = this.convertMinutes(user);
+        const { lifetime } = this.context.user
 
         return (
             <section className="profileSection">
@@ -66,9 +52,9 @@ class Profile extends Component {
                     <h1>Stats</h1>
                     <div>
                         <h3>Lifetime</h3>
-                        <p>Days: {time.Days}</p>
-                        <p>Hours: {time.Hours}</p>
-                        <p>Minutes: {time.Minutes}</p>
+                        <p>Days: {lifetime.days}</p>
+                        <p>Hours: {lifetime.hours}</p>
+                        <p>Minutes: {lifetime.mins}</p>
                     </div>
                     <div>
                         <h3>Last 7 Meditations</h3>
