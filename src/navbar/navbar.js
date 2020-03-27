@@ -5,7 +5,6 @@ import MeditationContext from '../meditationcontext';
 class NavBar extends Component {
     static contextType = MeditationContext;
     render() {
-        console.log(this.context.user)
         const {isLoggedIn, id} = this.context.user;
         return(
             <div>

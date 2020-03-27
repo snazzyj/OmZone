@@ -155,7 +155,8 @@ class Timer extends Component {
       soundCue.play();
       clearInterval(this.timer)
       this.setState({
-        isCompleted: true
+        isCompleted: true,
+        isStarted: false
       })
     }
   }
