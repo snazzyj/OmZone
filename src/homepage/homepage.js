@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Login from '../login/login';
 import Signup from '../signup/signup';
 import Timer from '../timer/timer';
-import Demo from '../demo/demo';
+import DemoLogin from '../demo/demoLogin';
 import MeditationContext from '../meditationcontext';
 
 class Homepage extends Component {
@@ -19,9 +19,9 @@ class Homepage extends Component {
                     : <div>
                         <Login />
                         <Signup />
+                        <DemoLogin />
                     </div>
                 }
-                <Demo />
             </div>
         )
     }

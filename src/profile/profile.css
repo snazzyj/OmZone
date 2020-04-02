@@ -2,12 +2,40 @@
     width: 66%;
     margin-left: auto;
     margin-right: auto;
-  }
+    color: black;
+}
+
+.statsSection {
+    color: rgb(0, 0, 0) ;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.statsSection > h1 {
+    width: 100%;
+    font-size: 30px;
+    margin-bottom: 0;
+    text-decoration: underline;
+}
+
+.statsSection > div > h3 {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.lifetime, .lastentries {
+    width: 33%;
+    margin-left: auto;
+    margin-right: auto;
+}
   
-  @media only screen and (max-width: 730px) {
-      .profileSection {
-          width: 90%;
-          margin-left: auto;
-          margin-right: auto;
-      }
-  }
+@media only screen and (max-width: 730px) {
+    .profileSection {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

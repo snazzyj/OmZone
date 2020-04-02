@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Fade from 'react-reveal/Fade'
 import BarGraph from '../bargraph/bargraph';
 import MeditationContext from '../meditationcontext';
 import './profile.css'
@@ -44,29 +46,34 @@ class Profile extends Component {
         const { lifetime } = this.context.user
 
         return (
-            <section className="profileSection">
+            <Fade top cascade duration={1500}>
                 <div>
-                    <BarGraph />
+                    <Link to="/">Timer</Link>
                 </div>
-                <section>
-                    <h1>Stats</h1>
+                <section className="profileSection">
                     <div>
-                        <h3>Lifetime</h3>
-                        <p>Days: {lifetime.days}</p>
-                        <p>Hours: {lifetime.hours}</p>
-                        <p>Minutes: {lifetime.mins}</p>
+                        <BarGraph />
                     </div>
-                    <div>
-                        <h3>Last 7 Meditations</h3>
-                        <p>
-                            Total time spent Meditating: {this.count7DayTotalMinutes(user)} minutes
-                    </p>
-                        <p>
-                            Average time spent Meditating: {this.getAverage(user)} minutes
-                    </p>
-                    </div>
+                    <section className="statsSection">
+                        <h1>Stats</h1>
+                        <div className="lifetime">
+                            <h3>Lifetime</h3>
+                            <p>Days: {lifetime.days}</p>
+                            <p>Hours: {lifetime.hours}</p>
+                            <p>Minutes: {lifetime.mins}</p>
+                        </div>
+                        <div className="lastentries">
+                            <h3>Last 7 Meditations</h3>
+                            <p>
+                                Total time spent Meditating: {this.count7DayTotalMinutes(user)} minutes
+                            </p>
+                            <p>
+                                Average time spent Meditating: {this.getAverage(user)} minutes
+                            </p>
+                        </div>
+                    </section>
                 </section>
-            </section>
+            </Fade>
         )
     }
 }
