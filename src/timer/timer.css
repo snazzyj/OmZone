@@ -1,1 +1,162 @@
-@import "~react-component-countdown-timer/lib/styles.css";
+.timerSection {
+    width: 35%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    background-color: rgba(255,255,255,0.3);
+}
+
+/* Countdown Timer */
+.countDown {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: #6d476d;
+}
+
+.countDown > p, .countdown > label {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.countDown > p {
+    font-size: 75px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Start and Input time */
+.start {
+    width: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.timeInput {
+    padding: 15px 0;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 25%;
+    border: none;
+    margin-left: 15px;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.timeInput::placeholder {
+    color: white;
+}
+
+.inputSection > label {
+    font-size: 25px;
+}
+
+.inputSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 25px;
+}
+
+/* Sound, background options and mute button */
+.selections {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 200px;
+}
+
+.sounds, .backgrounds, .muteBtn {
+    margin-left: 23px;
+    margin-right: 23px;
+}
+
+.sounds, .backgrounds {
+    width: 100px;
+}
+
+.muteBtn {
+    max-height: 45px;
+}
+
+.soundOption, .bgOptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button styling */
+.startBtn, .soundsBtn, .bgBtn, .muteBtn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.startBtn:hover, .soundsBtn:hover, .bgBtn:hover {
+    color: white;
+}
+
+.soundOption > button, .bgOptions > button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+.soundOption > button:hover, .bgOptions > button:hover {
+    background-color: #D8BFD8;
+}
+
+.soundOption > button, .bgOptions > button {
+    width: 90px;
+}
+
+/* Current selection */
+
+.currentSelection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.currentSelection > h3 {
+    width: 100%;
+}
+
+.currentSelection > div {
+    width: 33%;
+}
+
+
+@media only screen and (max-width: 1240px) {
+    .timerSection {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 740px) {
+    .timerSection {
+        width: 65%;
+    }
+}
+
+@media only screen and (max-width: 560px) {
+    .timerSection {
+        width: 90%;
+    }
+}
+

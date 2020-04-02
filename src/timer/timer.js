@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import UIFx from 'uifx';
+import Popup from 'reactjs-popup';
+import Fade from 'react-reveal/Fade';
+import Bounce from 'react-reveal/Bounce';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell, faImage, faVolumeMute, faPlay, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import Completed from '../completed/completed';
 import MeditationContext from '../meditationcontext';
 import bellAudio from '../assests/soundcues/337048__shinephoenixstormcrow__131348-kaonaya-bell-at-daitokuji-temple-kyoto-modified.mp3';
@@ -12,7 +18,13 @@ import rockSound from '../assests/backgroundSound/river-shore.mp3';
 import Mountains from '../assests/images/mountains.jpg';
 import Beach from '../assests/images/Sunrise-Beach.jpg';
 import Rocks from '../assests/images/BalanceRocksSea.jpg';
-import River from '../assests/images/river.jpg'
+import River from '../assests/images/river.jpg';
+import './timer.css'
+
+function TimeView(props) {
+  const { s, m } = props.time;
+  return <p>{m}<span>:</span>{s}</p>
+}
 
 const beachAudio = new Audio(beachSound);
 const riverAudio = new Audio(riverSound);
@@ -40,22 +52,26 @@ const backgrounds = [
   {
     id: 'Mountains',
     background: Mountains,
-    backgroundSound: mountainAudio
+    backgroundSound: mountainAudio,
+    song: 'Birds'
   },
   {
     id: 'Beach',
     background: Beach,
-    backgroundSound: beachAudio
+    backgroundSound: beachAudio,
+    song: 'Ocean'
   },
   {
     id: 'Rocks',
     background: Rocks,
-    backgroundSound: rockAudio
+    backgroundSound: rockAudio,
+    song: 'River Shore line'
   },
   {
     id: 'River',
     background: River,
-    backgroundSound: riverAudio
+    backgroundSound: riverAudio,
+    song: 'Rain Forest'
   }
 ]
 
@@ -69,29 +85,22 @@ class Timer extends Component {
       seconds: 0,
       desiredTime: 0,
       soundCue: bell,
+      soundChoice: 'Bell',
       backgound: '',
+      backgroundChoice: '',
       backgroundSound: null,
+      songChoce: '',
       isMuted: false,
+      muteBtnColor: '#000000',
       isStarted: false,
-      isCompleted: false
+      isCompleted: false,
+      displaySound: false,
+      displayBackground: false,
+      error: ''
     };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
-  }
-
-  secondsToTime(secs) {
-    let divisor_for_minutes = secs % (60 * 60);
-    let minutes = Math.floor(divisor_for_minutes / 60);
-
-    let divisor_for_seconds = divisor_for_minutes % 60;
-    let seconds = Math.ceil(divisor_for_seconds);
-
-    let obj = {
-      "m": minutes,
-      "s": seconds
-    };
-    return obj;
   }
 
   componentDidMount() {
@@ -113,6 +122,7 @@ class Timer extends Component {
     clearInterval(this.timer);
   }
 
+  //sets inital time
   setTime = (e) => {
     this.setState({
       seconds: parseInt(Math.floor(e.target.value * 60)),
@@ -120,25 +130,53 @@ class Timer extends Component {
     })
   }
 
+  //starts the timer, and background sound
   startTimer = () => {
     const { soundCue, backgroundSound, isMuted } = this.state
+
+    if(this.state.seconds === 0) {
+      this.setState({
+        error: 'No time inputted'
+      })
+    }
 
     if (this.timer === 0 && this.state.seconds > 0) {
       soundCue.play();
       if (!isMuted && backgroundSound !== null) {
+        backgroundSound.volume = 0.1
+        backgroundSound.loop = true;
         backgroundSound.play();
+        setTimeout(function(){
+          console.log(backgroundSound.volume)
+          backgroundSound.volume += 0.1
+          console.log(backgroundSound.volume)
+        }, 5000)
       }
       this.timer = setInterval(this.countDown, 1000);
       this.setState({ isStarted: true })
     }
   }
 
+  secondsToTime(secs) {
+    let divisor_for_minutes = secs % (60 * 60);
+    let minutes = Math.floor(divisor_for_minutes / 60);
+
+    let divisor_for_seconds = divisor_for_minutes % 60;
+    let seconds = Math.ceil(divisor_for_seconds);
+
+    if (minutes < 10) { minutes = "0" + minutes }
+    if (seconds < 10) { seconds = "0" + seconds }
+
+    let obj = {
+      "m": minutes,
+      "s": seconds
+    };
+    return obj;
+  }
+
   countDown = () => {
     const { soundCue, backgroundSound } = this.state
 
-    if (backgroundSound !== null) {
-      backgroundSound.loop = true;
-    }
     // Remove one second, set state so a re-render happens.
     let seconds = this.state.seconds - 1;
     this.setState({
@@ -154,6 +192,7 @@ class Timer extends Component {
       }
       soundCue.play();
       clearInterval(this.timer)
+      this.timer = 0;
       this.setState({
         isCompleted: true,
         isStarted: false
@@ -166,7 +205,8 @@ class Timer extends Component {
     let value = event.currentTarget.value;
     const soundOption = soundCues.find(audio => audio.id === value)
     this.setState({
-      soundCue: soundOption.sound
+      soundCue: soundOption.sound,
+      soundChoice: soundOption.id
     })
   }
 
@@ -174,57 +214,150 @@ class Timer extends Component {
   setBackground = (event) => {
     let value = event.currentTarget.value;
     let newBg = backgrounds.find(bg => bg.id === value)
+    console.log(newBg)
     this.setState({
       backgound: newBg.background,
-      backgroundSound: newBg.backgroundSound
+      backgroundSound: newBg.backgroundSound,
+      backgroundChoice: newBg.id,
+      songChoice: newBg.song
     })
   }
 
   //mutes background sound
   muteBackgroundAudio = () => {
     const { isMuted } = this.state
+    const newColor = this.state.muteBtnColor === "#000000" ? "red" : "#000000";
     this.setState({
-      isMuted: !isMuted
+      isMuted: !isMuted,
+      muteBtnColor: newColor
     })
   }
 
+  //toggles the display options
+  displaySoundOptions = () => {
+    const { displaySound } = this.state;
+    this.setState({
+      displaySound: !displaySound
+    })
+  }
+
+  displayBackgroundOptions = () => {
+    const { displayBackground } = this.state;
+    this.setState({
+      displayBackground: !displayBackground
+    })
+  }
+
+
   render() {
-    const { isStarted, desiredTime } = this.state
+    const { isStarted, desiredTime, soundChoice, songChoice, backgroundChoice } = this.state;
+    const { id } = this.context.user
 
     return (
-      <section className="timerSection">
-        <div>
-          <p>{this.state.time.m}<span>:</span>{this.state.time.s}</p>
-        </div>
-        <div>
-          <input type="number" onChange={this.setTime} required />
-          <div>
-            <button onClick={this.setSoundCue} value="Bell">Bell</button>
-            <button onClick={this.setSoundCue} value="Gong">Gong</button>
-            <button onClick={this.setSoundCue} value="Cymbal">Cymbal</button>
-          </div>
-          <div>
-            <audio preload="auto">
-              <source src={beachAudio} type="audio/wav" />
-              <source src={riverAudio} type="audio/mp3" />
-              <source src={mountainAudio} type="audio/wav" />
-              <source src={rockAudio} type="audio/flac" />
-            </audio>
-            <button onClick={this.setBackground} value="Mountains">Mountains</button>
-            <button onClick={this.setBackground} value="Rocks">Rocks</button>
-            <button onClick={this.setBackground} value="Beach">Beach</button>
-            <button onClick={this.setBackground} value="River">River</button>
-            <button onClick={this.muteBackgroundAudio}>Mute</button>
-          </div>
-        </div>
-        <div>
-          <button onClick={this.startTimer} disabled={isStarted}>Start</button>
-        </div>
+      <Fade top cascade duration={1500}>
 
         <div>
-          {this.state.isCompleted && <Completed minutes={desiredTime} id={this.context.user.id} />}
+          <Link to={`/profile/${id}`}>Profile</Link>
         </div>
-      </section>
+
+        <section className="timerSection">
+
+          <Popup trigger={<button>Demo Info</button>} position="bottom center">
+            <div>
+              <p>Input the time you want to meditate for in minutes</p>
+              <p>Select a sound cue for when the timer starts and stops</p>
+              <p>By selecting a background, a song will be played</p>
+              <p>If you dont want a song to be played, you can mute it to have a silent meditation</p>
+            </div>
+          </Popup>
+
+          <div className="countDown">
+            <label>
+              <FontAwesomeIcon icon={faStopwatch} size="4x" />
+            </label>
+            <TimeView time={this.state.time} />
+          </div>
+
+          <div className="start">
+            <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
+              <FontAwesomeIcon icon={faPlay} size="2x" />
+            </button>
+          </div>
+
+          <div className="inputSection">
+            <label>Desired Time</label>
+            <input className="timeInput" type="text" onChange={this.setTime} maxLength="2" size="2" placeholder="10" required />
+            <p>{this.state.error}</p>
+          </div>
+
+          <div className="selections">
+
+            <div className="sounds">
+              <button className="soundsBtn" onClick={this.displaySoundOptions}>
+                <FontAwesomeIcon icon={faBell} size="3x" />
+              </button>
+              {this.state.displaySound && (
+                <div className="soundOption">
+                  <button onClick={this.setSoundCue} value="Bell">Bell</button>
+                  <button onClick={this.setSoundCue} value="Gong">Gong</button>
+                  <button onClick={this.setSoundCue} value="Cymbal">Cymbal</button>
+                </div>
+              )}
+            </div>
+
+            <div className="backgrounds">
+              <audio preload="auto">
+                <source src={beachAudio} type="audio/wav" />
+                <source src={riverAudio} type="audio/mp3" />
+                <source src={mountainAudio} type="audio/wav" />
+                <source src={rockAudio} type="audio/flac" />
+              </audio>
+
+              <button className="bgBtn" onClick={this.displayBackgroundOptions}>
+                <FontAwesomeIcon icon={faImage} size="3x" />
+              </button>
+
+              {this.state.displayBackground && (
+                <div className="bgOptions">
+                  <button onClick={this.setBackground} value="Mountains">Mountains</button>
+                  <button onClick={this.setBackground} value="Rocks">Rocks</button>
+                  <button onClick={this.setBackground} value="Beach">Beach</button>
+                  <button onClick={this.setBackground} value="River">River</button>
+                </div>
+              )}
+            </div>
+
+            <button style={{ color: this.state.muteBtnColor }} className="muteBtn" onClick={this.muteBackgroundAudio}>
+              <FontAwesomeIcon icon={faVolumeMute} size="3x" />
+            </button>
+          </div>
+
+          <div>
+            {this.state.isCompleted &&
+              <Bounce top>
+                <Completed minutes={desiredTime} id={this.context.user.id} />
+              </Bounce>
+            }
+          </div>
+
+          <div className="currentSelection">
+            <h3>Current Selected Options</h3>
+            <div>
+              <p>Sound Cue</p>
+              <p>{soundChoice}</p>
+            </div>
+            <div>
+              <p>Background</p>
+              <p>{backgroundChoice ? backgroundChoice : 'None Selected'}</p>
+            </div>
+            <div>
+              <p>Song</p>
+              <p>{songChoice ? songChoice : 'None Selected'}</p>
+            </div>
+          </div>
+
+        </section>
+      </Fade>
     );
   }
 }
