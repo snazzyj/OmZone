@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import {activateKeepAwake} from 'expo-keep-awake';
 import MeditationContext from './meditationcontext';
-import NavBar from './navbar/navbar';
 import Profile from './profile/profile'
 import Login from './login/login';
 import Signup from './signup/signup';
@@ -16,8 +15,8 @@ class App extends Component {
     this.state = {
       user:
       {
-        id: 0,
-        isLoggedIn: false,
+        id: 1,
+        isLoggedIn: true,
         medData: [],
         lifetime: {},
         totalTime: 0
@@ -26,6 +25,7 @@ class App extends Component {
     }
   }
 
+  //calls setAwakeStatus upon intial render
   componentDidMount() {
     this.setAwakeStatus();
   }
@@ -33,6 +33,7 @@ class App extends Component {
     if(this.state.user !== prevState.user) {}
   }
 
+  //Sets intial state upon login with user data
   setUserLogin = user => {
     this.setState({
       user: {
@@ -44,12 +45,14 @@ class App extends Component {
       }
     })
   }
-
+  
+  //counts the total minutes
   countTotalMinutes = (array) => {
     if(array.length === 0) {return 0}
     return array.reduce((a,b) => ({minutes: a.minutes + b.minutes}));
   }
   
+  //convert total mins into days, hours, min format
   convertMinutes = (number) => {
     if(number === 0) {return 0}
     let days = Math.floor(number / 1440);
@@ -59,6 +62,7 @@ class App extends Component {
     return {days, hours, mins}
   }
 
+  //updates the user state obj upon completing a meditation
   updateUserData = (newLog) => {
     let {medData, totalTime} = this.state.user;
     const {minutes} = newLog
@@ -80,6 +84,7 @@ class App extends Component {
     })
   }
 
+  //tells mobile phones to stay awake
   setAwakeStatus = () => {
     const {shouldBeAwake} = this.state
     if(shouldBeAwake) {
@@ -99,7 +104,6 @@ class App extends Component {
 
         <BrowserRouter>
           <MeditationContext.Provider value={contextValue}>
-            <NavBar />
             <main>
               <Switch>
                 <Route exact path="/" component={Homepage}/>

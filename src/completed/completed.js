@@ -37,7 +37,7 @@ class Completed extends Component {
     render() {
         const {minutes} = this.props
         return (
-            <div>
+            <div className="completed">
                 <h1>Good work</h1>
                 <p>You meditated for {minutes} minutes</p>
             </div>

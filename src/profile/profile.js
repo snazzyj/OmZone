@@ -50,11 +50,11 @@ class Profile extends Component {
                 <div>
                     <Link to="/">Timer</Link>
                 </div>
-                <section className="profileSection">
+                <section className="profile">
                     <div>
                         <BarGraph />
                     </div>
-                    <section className="statsSection">
+                    <section className="stats">
                         <h1>Stats</h1>
                         <div className="lifetime">
                             <h3>Lifetime</h3>
