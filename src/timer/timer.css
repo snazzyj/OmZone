@@ -1,5 +1,6 @@
-.timerSection {
+.timer {
     width: 35%;
+    height: 600px;
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -39,7 +40,7 @@
     margin-right: auto;
 }
 
-.timeInput {
+.time {
     padding: 15px 0;
     font-size: 30px;
     text-align: center;
@@ -49,11 +50,11 @@
     background-color: rgba(0,0,0,0.2);
 }
 
-.timeInput::placeholder {
+.time::placeholder {
     color: white;
 }
 
-.inputSection > label {
+.input > label {
     font-size: 25px;
 }
 
@@ -69,10 +70,10 @@
 .selections {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     margin-top: 20px;
     margin-bottom: 20px;
-    height: 200px;
+    flex-wrap: wrap;
 }
 
 .sounds, .backgrounds, .muteBtn {
@@ -89,6 +90,7 @@
 }
 
 .soundOption, .bgOptions {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -131,6 +133,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .currentSelection > h3 {
@@ -141,21 +144,40 @@
     width: 33%;
 }
 
+.fadeOut{
+    opacity:0;
+    width:0;
+    height:0;
+    transition: opacity 5s ease-out;
+}
+
+/* Completed */
+.completed {
+    position: absolute;
+    width: 300px;
+    background-color: black;
+    color: white;
+    opacity: 0.9;
+    font-size: 22px;
+}
+
+
+
 
 @media only screen and (max-width: 1240px) {
-    .timerSection {
+    .timer {
         width: 50%;
     }
 }
 
 @media only screen and (max-width: 740px) {
-    .timerSection {
+    .timer {
         width: 65%;
     }
 }
 
 @media only screen and (max-width: 560px) {
-    .timerSection {
+    .timer {
         width: 90%;
     }
 }
