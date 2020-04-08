@@ -8,11 +8,11 @@ class Demo extends Component {
     static contextType = MeditationContext;
 
     render() {
-        const {isLoggedIn} = this.context.user
         return (
-            <div>
+            <div className="demoInfo">
                 <h1>Demo Information</h1>
-                {isLoggedIn ? <DemoInfo /> : <DemoLogin />}  
+                 <DemoInfo />
+                 <DemoLogin />
             </div>
         )
     }
