@@ -1,43 +1,46 @@
-import React, {Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 
 class Background extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            displayBackground: false
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      displayBackground: false
     }
+  }
 
-    //toggles the display options
-    displayBackgroundOptions = () => {
-        const { displayBackground } = this.state;
-        this.setState({
-          displayBackground: !displayBackground
-        })
-    }
+  //toggles the display options
+  displayBackgroundOptions = () => {
+    const { displayBackground } = this.state;
+    this.setState({
+      displayBackground: !displayBackground
+    })
+  }
 
-    render() {
-        return (
-            <div className="backgrounds">
+  render() {
+    return (
+      <div className="backgrounds">
+        <button className="bgBtn" onClick={this.displayBackgroundOptions}>
+          <FontAwesomeIcon icon={faImage} size="3x" />
+        </button>
 
-              <button className="bgBtn" onClick={this.displayBackgroundOptions}>
-                <FontAwesomeIcon icon={faImage} size="3x" />
-              </button>
-
-              {this.state.displayBackground && (
-                <div className="bgOptions">
-                  <button onClick={this.props.setBackground} value="Mountains">Mountains</button>
-                  <button onClick={this.props.setBackground} value="Rocks">Rocks</button>
-                  <button onClick={this.props.setBackground} value="Beach">Beach</button>
-                  <button onClick={this.props.setBackground} value="River">River</button>
-                </div>
+        <ul className="bgOptions">
+          {this.state.displayBackground && (
+            <Fragment>
+              {this.props.backgroundChoice.map(bg =>
+                <li onClick={this.props.setBackground} data-id={bg.id} key={bg.id}>
+                  {bg.id}
+                </li>
               )}
-            </div>
-        )
-    }
+            </Fragment>
+          )
+          }
+        </ul>
+      </div>
+    )
+  }
 }
 
 export default Background;

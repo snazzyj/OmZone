@@ -20,46 +20,27 @@ class Sounds extends Component {
     }
 
     render() {
-
         return (
-
-            <Fragment>
-
-                <div className="currentSelection">
-                    <h3>Current Selected Options</h3>
-                    <div>
-                        <p>Sound Cue</p>
-                        <p>{this.props.soundChoice}</p>
-                    </div>
-                    <div>
-                        <p>Background</p>
-                        <p>{this.props.backgroundChoice ? this.props.backgroundChoice : 'None Selected'}</p>
-                    </div>
-                    <div>
-                        <p>Song</p>
-                        <p>{this.props.songChoice ? this.props.songChoice : 'None Selected'}</p>
-                    </div>
-                </div>
-
-
-                <div className="sounds">
-                    <button className="soundsBtn" onClick={this.displaySoundOptions}>
-                        <FontAwesomeIcon icon={faBell} size="3x" />
-                    </button>
+            <div className="sounds">
+                <button className="soundsBtn" onClick={this.displaySoundOptions}>
+                    <FontAwesomeIcon icon={faBell} size="3x" />
+                </button>
+                <ul className="soundOption">
 
                     {this.state.displaySound && (
-                        <div className="soundOption" role="radiogroup">
-                            <button onClick={this.props.setSoundCue} value="Bell" role="radio" aria-checked="false">Bell</button>
-                            <button onClick={this.props.setSoundCue} value="Gong">Gong</button>
-                            <button onClick={this.props.setSoundCue} value="Cymbal">Cymbal</button>
-                        </div>
-                    )}
-
-                </div>
-            </Fragment>
+                        <Fragment>
+                            {this.props.soundChoice.map(sound =>
+                                <li onClick={this.props.setSoundCue} data-id={sound.id} key={sound.id}>
+                                    {sound.id}
+                                </li>
+                            )}
+                        </Fragment>
+                    )
+                    }
+                </ul>
+            </div>
         )
     }
-
 }
 
 export default Sounds;

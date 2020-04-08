@@ -1,11 +1,10 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import UIFx from 'uifx';
-import Popup from 'reactjs-popup';
 import Fade from 'react-reveal/Fade';
 import Bounce from 'react-reveal/Bounce';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeMute, faPlay, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeMute, faVolumeDown, faPlay, faStopwatch, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import Completed from '../completed/completed';
 import MeditationContext from '../meditationcontext';
 import Sounds from './sounds';
@@ -26,6 +25,27 @@ import './timer.css'
 function TimeView(props) {
   const { s, m } = props.time;
   return <p>{m}<span>:</span>{s}</p>
+}
+
+function CurrentSelection(props) {
+  const { sound, background, song } = props;
+  return (
+    <div className="currentSelection">
+      <h3>Current Selected Options</h3>
+      <div>
+        <p>Sound Cue</p>
+        <p>{sound}</p>
+      </div>
+      <div>
+        <p>Background</p>
+        <p>{background ? background : 'None Selected'}</p>
+      </div>
+      <div>
+        <p>Song</p>
+        <p>{song ? song : 'None Selected'}</p>
+      </div>
+    </div>
+  )
 }
 
 const beachAudio = new Audio(beachSound);
@@ -93,7 +113,7 @@ class Timer extends Component {
       desiredTime: 0,
       soundCue: bell,
       soundChoice: 'Bell',
-      backgound: '',
+      background: '',
       backgroundChoice: '',
       backgroundSound: null,
       songChoce: '',
@@ -102,6 +122,7 @@ class Timer extends Component {
       isStarted: false,
       isCompleted: false,
       visible: true,
+      urlName: '',
       error: ''
     };
     this.timer = 0;
@@ -118,7 +139,7 @@ class Timer extends Component {
   componentDidUpdate(prevState) {
     if (this.state !== prevState) { }
 
-    let image = this.state.backgound;
+    let image = this.state.background;
 
     document.body.style.backgroundImage = `url(${image})`
   }
@@ -209,7 +230,7 @@ class Timer extends Component {
 
   //sets starter and end sound cue
   setSoundCue = (event) => {
-    let value = event.currentTarget.value;
+    let value = event.currentTarget.dataset.id;
     const soundOption = soundCues.find(audio => audio.id === value)
     this.setState({
       soundCue: soundOption.sound,
@@ -219,11 +240,10 @@ class Timer extends Component {
 
   //sets document background and associated background audio file 
   setBackground = (event) => {
-    let value = event.currentTarget.value;
+    let value = event.currentTarget.dataset.id;
     let newBg = backgrounds.find(bg => bg.id === value)
-    console.log(newBg)
     this.setState({
-      backgound: newBg.background,
+      background: newBg.background,
       backgroundSound: newBg.backgroundSound,
       backgroundChoice: newBg.id,
       songChoice: newBg.song
@@ -232,11 +252,26 @@ class Timer extends Component {
 
   //mutes background sound
   muteBackgroundAudio = () => {
-    const { isMuted } = this.state
-    const newColor = this.state.muteBtnColor === "#000000" ? "red" : "#000000";
+    const { isMuted, backgroundSound } = this.state
+
     this.setState({
       isMuted: !isMuted,
-      muteBtnColor: newColor
+    })
+
+    if (backgroundSound !== null) {
+      backgroundSound.muted = !backgroundSound.muted
+    }
+  }
+
+  showText = () => {
+    this.setState({
+      urlName: 'Profile'
+    })
+  }
+
+  hideText = () => {
+    this.setState({
+      urlName: ''
     })
   }
 
@@ -247,46 +282,45 @@ class Timer extends Component {
     return (
       <Fade top cascade duration={1500}>
 
-        <div>
-          <Link to={`/profile/${id}`}>Profile</Link>
+        <div className="timerNav">
+          <Link to={`/profile/${id}`} onMouseEnter={this.showText} onMouseLeave={this.hideText}>
+            <span>
+              {this.state.urlName}
+            </span>
+            <FontAwesomeIcon icon={faArrowCircleRight} size="1x" />
+          </Link>
         </div>
 
         <section className="timer">
-
-          <Popup trigger={<button>Demo Info</button>} position="bottom center">
-            <div>
-              <p>Input the time you want to meditate for in minutes</p>
-              <p>Select a sound cue for when the timer starts and stops</p>
-              <p>By selecting a background, a song will be played</p>
-              <p>If you dont want a song to be played, you can mute it to have a silent meditation</p>
-            </div>
-          </Popup>
-
           <div className="countDown">
             <label>
               <FontAwesomeIcon icon={faStopwatch} size="4x" />
             </label>
             <TimeView time={this.state.time} />
           </div>
-            
+
           <Fade bottom duration={1000} when={!isStarted}>
-              <div className="start">
-                <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
-                  <FontAwesomeIcon icon={faPlay} size="2x" />
-                </button>
-              </div>
+            <div className="start">
+              <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
+                <FontAwesomeIcon icon={faPlay} size="2x" />
+              </button>
+            </div>
 
-              <div className="input">
-                <label>Desired Time</label>
-                <input className="time" type="text" onChange={this.setTime} maxLength="2" size="2" placeholder="10" required />
-                <p>{this.state.error}</p>
-              </div>
+            <div className="input">
+              <label>Desired Time</label>
+              <input className="time" type="text" onChange={this.setTime} maxLength="2" size="2" placeholder="10" required />
+              <p>{this.state.error}</p>
+            </div>
 
-              <div className="selections">
+            <div className="selections">
 
-                <Sounds setSoundCue={this.setSoundCue} soundChoice={soundChoice} songChoice={songChoice} backgroundChoice={backgroundChoice} />
+              <CurrentSelection sound={soundChoice} background={backgroundChoice} song={songChoice} />
+              <div className="options">
 
-                <Background setBackground={this.setBackground}>
+
+                <Sounds setSoundCue={this.setSoundCue} soundChoice={soundCues} />
+
+                <Background setBackground={this.setBackground} backgroundChoice={backgrounds}>
                   <audio preload="auto">
                     <source src={beachAudio} type="audio/wav" />
                     <source src={riverAudio} type="audio/mp3" />
@@ -297,10 +331,11 @@ class Timer extends Component {
 
 
                 <button style={{ color: this.state.muteBtnColor }} className="muteBtn" onClick={this.muteBackgroundAudio}>
-                  <FontAwesomeIcon icon={faVolumeMute} size="3x" />
+                {this.state.isMuted ? <FontAwesomeIcon icon={faVolumeMute} size="3x" /> : <FontAwesomeIcon icon={faVolumeDown} size="3x" />}
                 </button>
               </div>
-              </Fade>
+            </div>
+          </Fade>
 
           <div>
             {this.state.isCompleted &&

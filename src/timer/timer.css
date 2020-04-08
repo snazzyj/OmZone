@@ -110,7 +110,7 @@
     color: white;
 }
 
-.soundOption > button, .bgOptions > button {
+.soundOption > li, .bgOptions > li {
     background-color: transparent;
     border: none;
     outline: none;
@@ -119,11 +119,16 @@
     font-size: 18px;
 }
 
-.soundOption > button:hover, .bgOptions > button:hover {
-    background-color: #D8BFD8;
+.soundOption, .bgOptions {
+    list-style-type: none;
 }
 
-.soundOption > button, .bgOptions > button {
+.soundOption > li:hover, .bgOptions > li:hover {
+    background-color: #D8BFD8;
+    cursor: pointer;
+}
+
+.soundOption > li, .bgOptions > li {
     width: 90px;
 }
 
