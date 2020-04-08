@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@700&display=swap');
+
+.container {
+    width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 100px;
+}
+
+.navbar {
+    /* background: rgb(255,255,255, 0.6); */
+    height: 40px;
+}
+
+nav {
+    width: 980px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 8px;
+}
+
+.signup {
+    width: 300px;
+    background: rgb(255,255,255, 0.6);
+}
+
+.title {
+    width: 600px;
+    padding-right: 40px;
+    /* padding-left: 10px; */
+}
+
+.title > h1 {
+    font-family: 'Merienda', cursive;
+    font-size: 110px;
+    margin: 0;
+}
+
+.title > p {
+    font-size: 24px;
+}
+
+.login {
+    float: right;
+}
+
+.login > input {
+    margin-top: 5px;
+}
+
+.loginBtn {
+    margin-left: 10px;
+}
+
+.loginForm > label, .loginForm > input {
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 1080px) {
+    .container {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    nav {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .signup {
+        margin-left: auto;
+    }
+}
+
+@media only screen and (max-width: 920px) {
+    .title {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .signup {
+        margin-top: 25px;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .signup {
+        margin-right: auto;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    .title > h1 {
+        font-size: 90px;
+    }
+
+    .navbar {
+        height: 75px;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+
+    .login {
+        text-align: left;
+    }
+
+}
+
+
+
+
+
