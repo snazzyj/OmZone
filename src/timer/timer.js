@@ -12,10 +12,10 @@ import Background from './background';
 import bellAudio from '../assests/soundcues/337048__shinephoenixstormcrow__131348-kaonaya-bell-at-daitokuji-temple-kyoto-modified.mp3';
 import gongAudio from '../assests/soundcues/56240__q-k__gong-center-clear.wav';
 import cymbalAudio from '../assests/soundcues/435074__steffcaffrey__tingsha-cymbal.wav';
-import beachSound from '../assests/backgroundSound/ocean.wav';
-import riverSound from '../assests/backgroundSound/rain-and-forest.mp3';
-import mountainSound from '../assests/backgroundSound/birds.mp3';
-import rockSound from '../assests/backgroundSound/river-shore.mp3';
+import beachSound from '../assests/backgroundSound/IslandShore.mp3';
+import riverSound from '../assests/backgroundSound/Forest.mp3';
+import mountainSound from '../assests/backgroundSound/Mountain.mp3';
+import rockSound from '../assests/backgroundSound/Autumn.mp3';
 import Mountains from '../assests/images/mountains.jpg';
 import Beach from '../assests/images/Sunrise-Beach.jpg';
 import Rocks from '../assests/images/BalanceRocksSea.jpg';
@@ -110,7 +110,6 @@ class Timer extends Component {
     this.state = {
       time: {},
       seconds: 0,
-      desiredTime: 0,
       soundCue: bell,
       soundChoice: 'Bell',
       background: '',
@@ -118,7 +117,6 @@ class Timer extends Component {
       backgroundSound: null,
       songChoce: '',
       isMuted: false,
-      muteBtnColor: '#000000',
       isStarted: false,
       isCompleted: false,
       visible: true,
@@ -126,6 +124,7 @@ class Timer extends Component {
       error: ''
     };
     this.timer = 0;
+    this.desiredTime = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
   }
@@ -145,15 +144,20 @@ class Timer extends Component {
   }
 
   componentWillUnmount() {
+    const {backgroundSound} = this.state;
     document.body.style.backgroundImage = 'none';
     clearInterval(this.timer);
+    if(backgroundSound) {
+      backgroundSound.pause();
+      backgroundSound.currentTime = 0;
+    }
   }
 
   //sets inital time
   setTime = (e) => {
+    this.desiredTime = e.target.value
     this.setState({
       seconds: parseInt(Math.floor(e.target.value * 60)),
-      desiredTime: e.target.value
     })
   }
 
@@ -173,11 +177,7 @@ class Timer extends Component {
         backgroundSound.volume = 0.1
         backgroundSound.loop = true;
         backgroundSound.play();
-        setTimeout(function () {
-          console.log(backgroundSound.volume)
-          backgroundSound.volume += 0.1
-          console.log(backgroundSound.volume)
-        }, 5000)
+        this.fadeIn();
       }
       this.timer = setInterval(this.countDown, 1000);
       this.setState({ isStarted: true, visible: false })
@@ -202,20 +202,25 @@ class Timer extends Component {
   }
 
   countDown = () => {
-    const { soundCue, backgroundSound } = this.state
-
+    const { soundCue, backgroundSound } = this.state;
     // Remove one second, set state so a re-render happens.
     let seconds = this.state.seconds - 1;
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
     });
-
+    
+    if(backgroundSound.duration < 5 && backgroundSound !== null) {
+      this.fadeOut();
+    }
+    
     // Check if we're at zero.
     if (seconds === 0) {
       if (backgroundSound !== null) {
-        backgroundSound.pause();
-        backgroundSound.currentTime = 0;
+        this.endSong().then(() => {
+          backgroundSound.pause();
+          backgroundSound.currentTime = 0;
+        })
       }
       soundCue.play();
       clearInterval(this.timer)
@@ -226,6 +231,67 @@ class Timer extends Component {
         visible: true
       })
     }
+  }
+
+  fadeIn = () => {
+    const { backgroundSound } = this.state;
+    if (backgroundSound.volume) {
+      let intial = 0.1;
+      let setVolume = 0.5; // Target volume level for new song
+      let speed = 0.005; // Rate of increase
+      backgroundSound.volume = intial;
+      let eAudio = setInterval(function () {
+        console.log(backgroundSound.volume)
+        intial += speed;
+        backgroundSound.volume = intial.toFixed(1);
+        if (intial.toFixed(1) >= setVolume) {
+          clearInterval(eAudio);
+        };
+      }, 50);
+    };
+  };
+
+  fadeOut = () => {
+    const { backgroundSound } = this.state;
+    
+    if (backgroundSound.volume) {
+      let intial = 0.5;
+      let setVolume = 0; // Target volume level for new song
+      let speed = 0.005; // Rate of increase
+      backgroundSound.volume = intial;
+      let qAudio = setInterval(function () {
+        intial = intial - speed;
+        backgroundSound.volume = intial.toFixed(1);
+        if (intial.toFixed(1) <= setVolume) {
+          clearInterval(qAudio);
+        };
+      }, 50);
+    };
+  };
+
+  endSong = () => {
+    const { backgroundSound } = this.state;
+
+    return new Promise((resolve, reject) => {
+      if (backgroundSound.volume) {
+        let intial = 0.5;
+        let setVolume = 0; // Target volume level for new song
+        let speed = 0.005; // Rate of increase
+        backgroundSound.volume = intial;
+        let qAudio = setInterval(function () {
+          console.log(backgroundSound.volume)
+          intial = intial - speed;
+          backgroundSound.volume = intial.toFixed(1);
+          if (intial.toFixed(1) <= setVolume) {
+            // backgroundSound.pause();
+            // backgroundSound.currentTime = 0;
+            clearInterval(qAudio);
+            resolve(true)
+          };
+        }, 50
+        );
+      };
+    })
   }
 
   //sets starter and end sound cue
@@ -276,7 +342,7 @@ class Timer extends Component {
   }
 
   render() {
-    const { isStarted, desiredTime, soundChoice, songChoice, backgroundChoice } = this.state;
+    const { isStarted, soundChoice, songChoice, backgroundChoice } = this.state;
     const { id } = this.context.user
     console.log(this.state)
     return (
@@ -340,7 +406,7 @@ class Timer extends Component {
           <div>
             {this.state.isCompleted &&
               <Bounce top>
-                <Completed minutes={desiredTime} id={this.context.user.id} />
+                <Completed minutes={this.desiredTime} id={this.context.user.id} />
               </Bounce>
             }
           </div>
