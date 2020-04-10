@@ -208,7 +208,7 @@ class Timer extends Component {
       seconds: seconds,
     });
 
-    if (backgroundSound.duration < 5 && backgroundSound !== null) {
+    if (backgroundSound !== null && backgroundSound.duration < 5) {
       this.fadeOut();
     }
 
