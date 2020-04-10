@@ -77,7 +77,6 @@
 }
 
 .sounds, .backgrounds, .muteBtn {
-    margin-left: 23px;
     margin-right: 23px;
 }
 
@@ -134,11 +133,12 @@
 
 /* Current selection */
 
-.currentSelection {
+.currentSelection, .options {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    justify-content: space-around;
 }
 
 .currentSelection > h3 {
@@ -147,13 +147,6 @@
 
 .currentSelection > div {
     width: 33%;
-}
-
-.fadeOut{
-    opacity:0;
-    width:0;
-    height:0;
-    transition: opacity 5s ease-out;
 }
 
 /* Completed */
@@ -165,9 +158,6 @@
     opacity: 0.9;
     font-size: 22px;
 }
-
-
-
 
 @media only screen and (max-width: 1240px) {
     .timer {
@@ -187,3 +177,60 @@
     }
 }
 
+/* Transition and Animation */
+.fadeIn {
+    animation: fade-in ease 3s;
+    -webkit-animation: fade-in ease 3s;
+    -moz-animation: fade-in ease 3s;
+    -o-animation: fade-in ease 3s;
+    -ms-animation: fade-in ease 3s;
+  }
+  @keyframes fade-in {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-moz-keyframes fade-in {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-webkit-keyframes fade-in {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-o-keyframes fade-in {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-ms-keyframes fade-in {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+  }
+}
+.fadeOut {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s ease-in-out 3000ms, opacity 3000ms;
+  }

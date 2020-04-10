@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import config from '../config';
 import MeditationContext from '../meditationcontext';
 
@@ -8,39 +8,40 @@ class Completed extends Component {
 
     componentDidMount() {
         let url = `${config.API_ENDPOINT}/medtracker`
-        const {minutes, id} = this.props;
+        const { minutes, id } = this.props;
         fetch(url, {
             method: 'POST',
             headers: {
-                'content-type' : 'application/json'
+                'content-type': 'application/json'
             },
             body: JSON.stringify({
                 minutes,
                 id
             })
         })
-        .then(res => {
-            if(!res.ok) {
-                throw new Error(res.error)
-            }
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.error)
+                }
 
-            return res.json()
-        })
-        .then(data => {
-            this.context.updateUserData(data)
-        })
-        .catch(error => {
-            alert(error)
-        })
+                return res.json()
+            })
+            .then(data => {
+                this.context.updateUserData(data)
+            })
+            .catch(error => {
+                alert(error)
+            })
     }
 
     render() {
-        const {minutes} = this.props
+        const { minutes } = this.props
         return (
-            <div className="completed">
+            <Fragment>
+                <button onClick={this.props.closeCompletedBox}>X</button>
                 <h1>Good work</h1>
                 <p>You meditated for {minutes} minutes</p>
-            </div>
+            </Fragment>
         )
     }
 

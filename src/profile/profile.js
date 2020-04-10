@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import Fade from 'react-reveal/Fade';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import BarGraph from '../bargraph/bargraph';
 import MeditationContext from '../meditationcontext';
 import './profile.css'
+import '../timer/timer.css'
 
 class Profile extends Component {
 
@@ -64,8 +64,8 @@ class Profile extends Component {
         const { lifetime } = this.context.user
 
         return (
-            <Fade top cascade duration={1500}>
-                <div className="nav">
+            <Fragment>
+                <div className="nav fadeIn">
                 <Link to='/' onMouseEnter={this.showText} onMouseLeave={this.hideText}>
                         <FontAwesomeIcon icon={faArrowCircleLeft} size='1x'/>
                         <span>
@@ -73,7 +73,7 @@ class Profile extends Component {
                         </span>
                     </Link>
                 </div>
-                <section className="profile">
+                <section className="profile  fadeIn">
                     <div>
                         <BarGraph />
                     </div>
@@ -96,7 +96,7 @@ class Profile extends Component {
                         </div>
                     </section>
                 </section>
-            </Fade>
+            </Fragment>
         )
     }
 }

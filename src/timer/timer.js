@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import UIFx from 'uifx';
-import Fade from 'react-reveal/Fade';
-import Bounce from 'react-reveal/Bounce';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeMute, faVolumeDown, faPlay, faStopwatch, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import Completed from '../completed/completed';
@@ -144,10 +142,10 @@ class Timer extends Component {
   }
 
   componentWillUnmount() {
-    const {backgroundSound} = this.state;
+    const { backgroundSound } = this.state;
     document.body.style.backgroundImage = 'none';
     clearInterval(this.timer);
-    if(backgroundSound) {
+    if (backgroundSound) {
       backgroundSound.pause();
       backgroundSound.currentTime = 0;
     }
@@ -209,11 +207,11 @@ class Timer extends Component {
       time: this.secondsToTime(seconds),
       seconds: seconds,
     });
-    
-    if(backgroundSound.duration < 5 && backgroundSound !== null) {
+
+    if (backgroundSound.duration < 5 && backgroundSound !== null) {
       this.fadeOut();
     }
-    
+
     // Check if we're at zero.
     if (seconds === 0) {
       if (backgroundSound !== null) {
@@ -253,7 +251,7 @@ class Timer extends Component {
 
   fadeOut = () => {
     const { backgroundSound } = this.state;
-    
+
     if (backgroundSound.volume) {
       let intial = 0.5;
       let setVolume = 0; // Target volume level for new song
@@ -341,14 +339,21 @@ class Timer extends Component {
     })
   }
 
+  closeCompletedBox = () => {
+    this.setState({
+      isCompleted: false
+    })
+    this.desiredTime = 0;
+  }
+
   render() {
     const { isStarted, soundChoice, songChoice, backgroundChoice } = this.state;
     const { id } = this.context.user
     console.log(this.state)
     return (
-      <Fade top cascade duration={1500}>
+      <Fragment>
 
-        <div className="timerNav">
+        <div className="timerNav fadeIn">
           <Link to={`/profile/${id}`} onMouseEnter={this.showText} onMouseLeave={this.hideText}>
             <span>
               {this.state.urlName}
@@ -357,7 +362,7 @@ class Timer extends Component {
           </Link>
         </div>
 
-        <section className="timer">
+        <section className="timer fadeIn">
           <div className="countDown">
             <label>
               <FontAwesomeIcon icon={faStopwatch} size="4x" />
@@ -365,53 +370,49 @@ class Timer extends Component {
             <TimeView time={this.state.time} />
           </div>
 
-          <Fade bottom duration={1000} when={!isStarted}>
-            <div className="start">
-              <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
-                <FontAwesomeIcon icon={faPlay} size="2x" />
+          <div className={!isStarted ? "start fadeIn" : "fadeOut"}>
+            <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
+              <FontAwesomeIcon icon={faPlay} size="2x" />
+            </button>
+          </div>
+
+          <div className={!isStarted ? "input fadeIn" : "fadeOut" }>
+            <label>Desired Time</label>
+            <input className="time" type="text" onChange={this.setTime} maxLength="2" size="2" placeholder="10" required />
+            <p>{this.state.error}</p>
+          </div>
+
+          <div className={!isStarted ? "selections fadeIn" : "fadeOut" }>
+
+            <CurrentSelection sound={soundChoice} background={backgroundChoice} song={songChoice} />
+            <div className="options">
+
+
+              <Sounds setSoundCue={this.setSoundCue} soundChoice={soundCues} />
+
+              <Background setBackground={this.setBackground} backgroundChoice={backgrounds}>
+                <audio preload="auto">
+                  <source src={beachAudio} type="audio/wav" />
+                  <source src={riverAudio} type="audio/mp3" />
+                  <source src={mountainAudio} type="audio/wav" />
+                  <source src={rockAudio} type="audio/flac" />
+                </audio>
+              </Background>
+
+
+              <button className="muteBtn" onClick={this.muteBackgroundAudio}>
+                {this.state.isMuted ? <FontAwesomeIcon icon={faVolumeMute} size="3x" /> : <FontAwesomeIcon icon={faVolumeDown} size="3x" />}
               </button>
             </div>
+          </div>
 
-            <div className="input">
-              <label>Desired Time</label>
-              <input className="time" type="text" onChange={this.setTime} maxLength="2" size="2" placeholder="10" required />
-              <p>{this.state.error}</p>
-            </div>
-
-            <div className="selections">
-
-              <CurrentSelection sound={soundChoice} background={backgroundChoice} song={songChoice} />
-              <div className="options">
-
-
-                <Sounds setSoundCue={this.setSoundCue} soundChoice={soundCues} />
-
-                <Background setBackground={this.setBackground} backgroundChoice={backgrounds}>
-                  <audio preload="auto">
-                    <source src={beachAudio} type="audio/wav" />
-                    <source src={riverAudio} type="audio/mp3" />
-                    <source src={mountainAudio} type="audio/wav" />
-                    <source src={rockAudio} type="audio/flac" />
-                  </audio>
-                </Background>
-
-
-                <button style={{ color: this.state.muteBtnColor }} className="muteBtn" onClick={this.muteBackgroundAudio}>
-                {this.state.isMuted ? <FontAwesomeIcon icon={faVolumeMute} size="3x" /> : <FontAwesomeIcon icon={faVolumeDown} size="3x" />}
-                </button>
-              </div>
-            </div>
-          </Fade>
-
-          <div>
+          <div className="completed">
             {this.state.isCompleted &&
-              <Bounce top>
-                <Completed minutes={this.desiredTime} id={this.context.user.id} />
-              </Bounce>
+                <Completed minutes={this.desiredTime} id={this.context.user.id} closeCompletedBox={this.closeCompletedBox} />
             }
           </div>
         </section>
-      </Fade>
+      </Fragment>
     );
   }
 }
