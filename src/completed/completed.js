@@ -38,9 +38,9 @@ class Completed extends Component {
         const { minutes } = this.props
         return (
             <Fragment>
-                <button onClick={this.props.closeCompletedBox}>X</button>
                 <h1>Good work</h1>
                 <p>You meditated for {minutes} minutes</p>
+                <button onClick={this.props.closeCompletedBox}>Close</button>
             </Fragment>
         )
     }

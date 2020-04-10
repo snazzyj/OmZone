@@ -1,7 +1,25 @@
+.timerNav {
+    width: 35%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.timerNav > a > span{
+    font-size: 24px;
+    padding-right: 5px;
+}
+
+.timerNav > a:hover {
+    color: black;
+}
+
+/* Main Container */
 .timer {
     width: 35%;
     height: 600px;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -105,17 +123,23 @@
     cursor: pointer;
 }
 
+.muteBtn {
+    min-width: 52px;
+}
+
 .startBtn:hover, .soundsBtn:hover, .bgBtn:hover {
     color: white;
 }
 
 .soundOption > li, .bgOptions > li {
-    background-color: transparent;
+    background-color: rgb(180, 151, 180);
     border: none;
     outline: none;
     cursor: pointer;
     margin-top: 15px;
     font-size: 18px;
+    border-radius: 50%;
+    padding: 10px;
 }
 
 .soundOption, .bgOptions {
@@ -125,10 +149,6 @@
 .soundOption > li:hover, .bgOptions > li:hover {
     background-color: #D8BFD8;
     cursor: pointer;
-}
-
-.soundOption > li, .bgOptions > li {
-    width: 90px;
 }
 
 /* Current selection */
@@ -152,15 +172,38 @@
 /* Completed */
 .completed {
     position: absolute;
-    width: 300px;
+    width: 35%;
+    height: 75%;
     background-color: black;
     color: white;
     opacity: 0.9;
     font-size: 22px;
 }
 
+.completed > button {
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 20px 10px;
+    border: none;
+    width: 90%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.completed > button:hover {
+    background-color: #D8BFD8;
+}
+
+.completed > h1 {
+    margin-top: 150px;
+}
+
 @media only screen and (max-width: 1240px) {
     .timer {
+        width: 50%;
+    }
+
+    .completed {
         width: 50%;
     }
 }
@@ -169,10 +212,16 @@
     .timer {
         width: 65%;
     }
+    .completed {
+        width: 65%;
+    }
 }
 
 @media only screen and (max-width: 560px) {
     .timer {
+        width: 90%;
+    }
+    .completed {
         width: 90%;
     }
 }

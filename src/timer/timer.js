@@ -239,7 +239,6 @@ class Timer extends Component {
       let speed = 0.005; // Rate of increase
       backgroundSound.volume = intial;
       let eAudio = setInterval(function () {
-        console.log(backgroundSound.volume)
         intial += speed;
         backgroundSound.volume = intial.toFixed(1);
         if (intial.toFixed(1) >= setVolume) {
@@ -277,7 +276,6 @@ class Timer extends Component {
         let speed = 0.005; // Rate of increase
         backgroundSound.volume = intial;
         let qAudio = setInterval(function () {
-          console.log(backgroundSound.volume)
           intial = intial - speed;
           backgroundSound.volume = intial.toFixed(1);
           if (intial.toFixed(1) <= setVolume) {
@@ -349,19 +347,18 @@ class Timer extends Component {
   render() {
     const { isStarted, soundChoice, songChoice, backgroundChoice } = this.state;
     const { id } = this.context.user
-    console.log(this.state)
     return (
       <Fragment>
+
 
         <div className="timerNav fadeIn">
           <Link to={`/profile/${id}`} onMouseEnter={this.showText} onMouseLeave={this.hideText}>
             <span>
               {this.state.urlName}
             </span>
-            <FontAwesomeIcon icon={faArrowCircleRight} size="1x" />
+            <FontAwesomeIcon icon={faArrowCircleRight} size="2x" />
           </Link>
         </div>
-
         <section className="timer fadeIn">
           <div className="countDown">
             <label>
@@ -406,11 +403,11 @@ class Timer extends Component {
             </div>
           </div>
 
-          <div className="completed">
             {this.state.isCompleted &&
+          <div className="completed">
                 <Completed minutes={this.desiredTime} id={this.context.user.id} closeCompletedBox={this.closeCompletedBox} />
-            }
           </div>
+            }
         </section>
       </Fragment>
     );

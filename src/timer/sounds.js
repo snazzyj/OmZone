@@ -26,7 +26,6 @@ class Sounds extends Component {
                     <FontAwesomeIcon icon={faBell} size="3x" />
                 </button>
                 <ul className="soundOption">
-
                     {this.state.displaySound && (
                         <Fragment>
                             {this.props.soundChoice.map(sound =>
