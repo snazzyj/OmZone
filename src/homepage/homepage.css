@@ -1,31 +1,87 @@
 @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@700&display=swap');
 
+/* Main Container */
 .container {
     width: 980px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 100px;
+    margin-top: 75px;
 }
 
+/* Nav Bar Styling where the Login form sits */
 .navbar {
-    /* background: rgb(255,255,255, 0.6); */
-    height: 40px;
+    background: rgb(255,255,255, 0.6);
+    height: 50px;
 }
 
 nav {
-    width: 980px;
-    margin-right: auto;
-    margin-left: auto;
+    width: 100%;
     padding-top: 8px;
 }
 
-.signup {
-    width: 300px;
-    background: rgb(255,255,255, 0.6);
+.login {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 8px;
 }
 
+.loginForm > label > input {
+    padding: 2px;
+}
+
+.loginBtn {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.loginForm > label {
+    margin-right: 10px;
+}
+
+/* Sign up box */
+.signupSection {
+    width: 300px;
+    background: rgb(255,255,255, 0.6);
+    min-height: 360px;
+}
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.signupForm > label {
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.signupForm > label > input {
+    float: right;
+    width: 60%;
+    margin-right: 10px;
+    padding: 2px;
+}
+
+.signupBtn {
+    width: 25%;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.signupForm > p {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+/* Title Box */
 .title {
     width: 600px;
     padding-right: 40px;
@@ -42,37 +98,70 @@ nav {
     font-size: 24px;
 }
 
-.login {
-    float: right;
+/* Demo Information */
+.demoInfo {
+    background: rgb(255,255,255, 0.6);
+    width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
 }
 
-.login > input {
-    margin-top: 5px;
+.demoInfo > button {
+    padding:  15px 20px;
+    margin-top: 15px;
 }
 
-.loginBtn {
-    margin-left: 10px;
+.demoInfo > button:hover {
+    cursor: pointer;
+    background-color: #D8BFD8 ;
 }
 
-.loginForm > label, .loginForm > input {
-    margin-right: 10px;
+.demoLogin {
+    padding-bottom: 5px;
 }
 
+.popup-content {
+    text-align: left;
+    width: 250px;
+}
+
+.popup-content > ol {
+    padding-left: 20px;
+}
+
+
+/* Media Queries for smaller screens */
 @media only screen and (max-width: 1080px) {
     .container {
         width: 90%;
         margin-left: auto;
         margin-right: auto;
     }
-
-    nav {
-        width: 90%;
-    }
 }
 
 @media only screen and (max-width: 1050px) {
+    .title {
+        padding-right: 0;
+    }
     .signup {
         margin-left: auto;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .title {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .signupSection {
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .demoInfo {
+        width: 300px;
     }
 }
 
@@ -99,18 +188,31 @@ nav {
     .title > h1 {
         font-size: 90px;
     }
-
+  
     .navbar {
-        height: 75px;
+        height: 70px;
     }
 }
 
 @media only screen and (max-width: 390px) {
-
     .login {
         text-align: left;
     }
+}
 
+@media only screen and (max-width: 370px) {
+
+    .loginForm > label {
+        margin-left: 10px;
+    }
+
+    .loginBtn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        margin-top: 5px;
+        padding: 2px;
+    }
 }
 
 

@@ -37,11 +37,13 @@ class Login extends Component {
         return (
             <div className="login">
                 <form className="loginForm" onSubmit={this.handleSubmit}>
-                    <label htmlFor="email">Email</label>
-                    <input name="email" type="email" required />
-                    <label htmlFor="password">Password</label>
-                    <input name="password" required />
-                    {/* <input name="password" type="password" required /> */}
+                    <label htmlFor="email">
+                        <input name="email" type="email" placeholder="Email" required />
+                    </label>
+                    <label htmlFor="password">
+                        <input name="password" type="password" placeholder="Password" required />
+                    </label>
+
                     <button className="loginBtn" type="submit">Login</button>
                 </form>
                 <p>

@@ -10,7 +10,6 @@ class Demo extends Component {
     render() {
         return (
             <div className="demoInfo">
-                <h1>Demo Information</h1>
                  <DemoInfo />
                  <DemoLogin />
             </div>

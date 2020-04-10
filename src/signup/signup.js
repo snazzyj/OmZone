@@ -16,6 +16,7 @@ class Signup extends Component {
                 email: '',
                 password: ''
             },
+            status: false,
             error: null
         }
     }
@@ -60,6 +61,7 @@ class Signup extends Component {
         event.preventDefault();
 
         const { name, email, password } = event.target;
+        document.getElementsByTagName('html')[0].className += 'wait';
 
         if (password.value.length >= 6) {
             this.setState({
@@ -75,6 +77,10 @@ class Signup extends Component {
                     name.value = '';
                     email.value = '';
                     password.value = ''
+                    document.getElementsByTagName('html')[0].className -= 'wait';
+                    this.setState({
+                        status: true
+                    })
                 })
                 .catch(res => {
                     this.setState({
@@ -91,28 +97,34 @@ class Signup extends Component {
     }
 
     render() {
-        const { errors } = this.state;
+        const { errors, status } = this.state;
         return (
             <div className="signupSection">
-
 
                 <h1>Sign up</h1>
 
                 <form className="signupForm" onSubmit={this.handleSubmit}>
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Name
                     <input type="text" name="name" required />
+                    </label>
 
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">Email
                     <input type="email" name="email" required onChange={this.handleEmail} />
+                    </label>
 
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Password
                     <input type="password" name="password" required onChange={this.handlePassword} />
-                    {errors.email.length > 0 &&
+                    </label>
+
+                    <button className="signupBtn">Sign Up</button>
+                    {status && (
+                        <p>Sign up complete. You can now login with your email and password</p>
+                    )}
+
+                        {errors.email.length > 0 &&
                         <p>{errors.email}</p>}
                     {errors.password.length > 0 &&
                         <p>{errors.password}</p>}
-
-                    <button className="signupBtn">Submit</button>
 
                 </form>
             </div>

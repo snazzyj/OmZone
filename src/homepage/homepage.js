@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import Fade from 'react-reveal/Fade'
+import React, { Component, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faOm } from '@fortawesome/free-solid-svg-icons'
 import Login from '../login/login';
@@ -18,18 +17,18 @@ class Homepage extends Component {
         const { isLoggedIn } = this.context.user
 
         return (
-            <Fade top cascade duration={1700}>
-            <div>
+            <Fragment>
                 {isLoggedIn
-                    ? <div>
+                    ? <Fragment>
                         <Timer />
-                    </div>
-                    : <div>
-                        <div className="navbar">
-                            <nav>
-                                <Login />
-                            </nav>
-                        </div>
+                    </Fragment>
+                    : <Fragment>
+
+                        {/* <div className="navbar"> */}
+                        <nav className="navbar">
+                            <Login />
+                        </nav>
+                        {/* </div> */}
                         <section className="container">
                             <div className="title">
                                 <h1>Om Zone</h1>
@@ -37,18 +36,13 @@ class Homepage extends Component {
                                 <p>-Dalai Lama</p>
                                 <FontAwesomeIcon icon={faOm} size="4x" />
                             </div>
-
-                            <div className="signup">
-                                <Signup />
-                            </div>
+                            <Signup />
                         </section>
-                        <div>
-                            <Demo />
-                        </div>
-                    </div>
+                        <Demo />
+
+                    </Fragment>
                 }
-            </div>
-        </Fade>
+            </Fragment>
         )
     }
 
