@@ -65,18 +65,16 @@ class Profile extends Component {
 
         return (
             <Fragment>
-                <div className="nav fadeIn">
+                <div className="profileNav fadeIn">
                 <Link to='/' onMouseEnter={this.showText} onMouseLeave={this.hideText}>
-                        <FontAwesomeIcon icon={faArrowCircleLeft} size='1x'/>
+                        <FontAwesomeIcon icon={faArrowCircleLeft} size='2x'/>
                         <span>
                         {this.state.urlName}
                         </span>
                     </Link>
                 </div>
                 <section className="profile  fadeIn">
-                    <div>
                         <BarGraph />
-                    </div>
                     <section className="stats">
                         <h1>Stats</h1>
                         <div className="lifetime">
