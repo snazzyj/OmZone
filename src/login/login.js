@@ -9,13 +9,15 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
-            error: ''
+            error: '',
+            status: false
         }
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         const { email, password } = e.target;
+        document.getElementsByTagName('html')[0].className += 'wait';
 
         AuthApiService.postLogin({
             email: email.value,
@@ -24,6 +26,10 @@ class Login extends Component {
             .then(res => {
                 const { user } = res;
                 this.context.setUserLogin(user)
+                document.getElementsByTagName('html')[0].className -= 'wait';
+                this.setState({
+                    status: true
+                })
             })
             .catch(error => {
                 this.setState({
