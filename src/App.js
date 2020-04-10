@@ -3,8 +3,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import {activateKeepAwake} from 'expo-keep-awake';
 import MeditationContext from './meditationcontext';
 import Profile from './profile/profile'
-import Login from './login/login';
-import Signup from './signup/signup';
 import Homepage from './homepage/homepage';
 import './App.css';
 
@@ -16,7 +14,7 @@ class App extends Component {
       user:
       {
         id: 1,
-        isLoggedIn: true,
+        isLoggedIn: false,
         medData: [],
         lifetime: {},
         totalTime: 0
@@ -28,9 +26,17 @@ class App extends Component {
   //calls setAwakeStatus upon intial render
   componentDidMount() {
     this.setAwakeStatus();
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+      this.setState({
+        user
+      })
+    };
   }
   componentDidUpdate(prevState) {
-    if(this.state.user !== prevState.user) {}
+    if(this.state.user !== prevState.user) {
+      localStorage.setItem('user', JSON.stringify(this.state.user))
+    }
   }
 
   //Sets intial state upon login with user data
@@ -44,6 +50,7 @@ class App extends Component {
         totalTime: user.totalTime
       }
     })
+    localStorage.setItem('user', JSON.stringify(this.state.user));
   }
   
   //counts the total minutes
@@ -108,8 +115,6 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Homepage}/>
                 <Route path="/profile/:id" component={Profile} />
-                <Route path="/login" component={Login} />
-                <Route path="signup" component={Signup} />
               </Switch>
             </main>
           </MeditationContext.Provider>
