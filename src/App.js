@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       user:
       {
-        id: 1,
+        id: 0,
         isLoggedIn: false,
         medData: [],
         lifetime: {},
@@ -76,7 +76,7 @@ class App extends Component {
     let newTotal = totalTime + minutes;
     let updated = medData;
 
-    updated.pop();
+    updated.shift();
     updated.push(newLog)
 
     let newLiftetime = this.convertMinutes(newTotal)
@@ -105,6 +105,7 @@ class App extends Component {
       setUserLogin: this.setUserLogin,
       updateUserData: this.updateUserData
     }
+    console.log(this.state.user)
 
     return (
       <div className="App">
