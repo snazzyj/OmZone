@@ -16,7 +16,7 @@ class BarGraph extends Component {
                     data={medData}
                     margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
                 >
-                    <XAxis dataKey="date" tick={{ fill: 'black' }}>
+                    <XAxis dataKey="date_published" tick={{ fill: 'black' }}>
                         <Label value="Date" position="insideBottom" offset={-5}/>    
                     </XAxis>
 
