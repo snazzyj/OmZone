@@ -105,7 +105,6 @@ class App extends Component {
       setUserLogin: this.setUserLogin,
       updateUserData: this.updateUserData
     }
-    console.log(this.state.user)
 
     return (
       <div className="App">
