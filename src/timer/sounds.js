@@ -19,6 +19,12 @@ class Sounds extends Component {
         })
     }
 
+    closeSoundsBox = () => {
+        this.setState({
+            displaySound: false
+        })
+    }
+
     render() {
         return (
             <div className="sounds">
@@ -29,7 +35,11 @@ class Sounds extends Component {
                     {this.state.displaySound && (
                         <Fragment>
                             {this.props.soundChoice.map(sound =>
-                                <li onClick={this.props.setSoundCue} data-id={sound.id} key={sound.id}>
+                                <li onClick={(sound) => {
+                                    this.props.setSoundCue(sound);
+                                    this.closeSoundsBox();
+                                }} 
+                                data-id={sound.id} key={sound.id}>
                                     {sound.id}
                                 </li>
                             )}

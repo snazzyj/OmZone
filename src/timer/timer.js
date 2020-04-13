@@ -35,12 +35,12 @@ function CurrentSelection(props) {
         <p>{sound}</p>
       </div>
       <div>
-        <p>Background</p>
-        <p>{background ? background : 'None Selected'}</p>
-      </div>
-      <div>
         <p>Song</p>
         <p>{song ? song : 'None Selected'}</p>
+      </div>
+      <div>
+        <p>Background</p>
+        <p>{background ? background : 'None Selected'}</p>
       </div>
     </div>
   )
@@ -387,6 +387,10 @@ class Timer extends Component {
 
               <Sounds setSoundCue={this.setSoundCue} soundChoice={soundCues} />
 
+              <button className="muteBtn" onClick={this.muteBackgroundAudio}>
+                {this.state.isMuted ? <FontAwesomeIcon icon={faVolumeMute} size="3x" /> : <FontAwesomeIcon icon={faVolumeDown} size="3x" />}
+              </button>
+
               <Background setBackground={this.setBackground} backgroundChoice={backgrounds}>
                 <audio preload="auto">
                   <source src={beachAudio} type="audio/wav" />
@@ -396,10 +400,6 @@ class Timer extends Component {
                 </audio>
               </Background>
 
-
-              <button className="muteBtn" onClick={this.muteBackgroundAudio}>
-                {this.state.isMuted ? <FontAwesomeIcon icon={faVolumeMute} size="3x" /> : <FontAwesomeIcon icon={faVolumeDown} size="3x" />}
-              </button>
             </div>
           </div>
 

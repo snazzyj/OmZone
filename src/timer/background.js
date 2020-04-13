@@ -19,6 +19,12 @@ class Background extends Component {
     })
   }
 
+  closeBackgroundBox = () => {
+    this.setState({
+      displayBackground: false
+    })
+  }
+
   render() {
     return (
       <div className="backgrounds">
@@ -30,7 +36,10 @@ class Background extends Component {
           {this.state.displayBackground && (
             <Fragment>
               {this.props.backgroundChoice.map(bg =>
-                <li onClick={this.props.setBackground} data-id={bg.id} key={bg.id}>
+                <li onClick={(bg) => {
+                  this.props.setBackground(bg);
+                  this.closeBackgroundBox();
+                  }} data-id={bg.id} key={bg.id}>
                   {bg.id}
                 </li>
               )}
