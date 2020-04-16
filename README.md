@@ -1,68 +1,27 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Om Zone
+### [Live](https://omzone.snazzyj.now.sh/)
+### [API Documentation](https://github.com/snazzyj/omzone-api)
+### Demo Account:
+### Email: test@gmail.com
+### Password: Password123
 
-## Available Scripts
+# Getting Started
+Om Zone is all about zen and relaxation. It allows users to get into a good rhythm of Meditatiing each day and seeing their progress with the tracker. Users can set different backgrounds which have a song track to help users relax or opt to do a silent breathing meditation. The profile page will display the last 7 times the user has meditating, showing the date and for how long the meditated for along with 2 different stats section to track their progress.
 
-In the project directory, you can run:
+# Screenshots
+**Home** :
+![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/landingpage.png)
 
-### `npm start`
+**Timer without a background** :
+![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/timer.png)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Timer with a background** :
+![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/timer1.png)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+**Profile**:
+![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/profile.png)
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+# This project was built with:
+1. React
+2. Javascript
+3. CSS
