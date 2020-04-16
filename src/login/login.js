@@ -24,22 +24,24 @@ class Login extends Component {
             password: password.value
         })
             .then(res => {
-                const { user } = res;
-                this.context.setUserLogin(user)
-                document.getElementsByTagName('html')[0].className -= 'wait';
-                this.setState({
-                    status: true
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    error: error.message
-                })
+                if(res.error) {
+                    document.getElementsByTagName('html')[0].className -= 'wait';
+                    this.setState({
+                        error: res.error.message,
+                        status: false
+                    })
+                } else {
+                    const { user } = res;
+                    this.context.setUserLogin(user)
+                    document.getElementsByTagName('html')[0].className -= 'wait';
+                    this.setState({
+                        status: true
+                    })
+                }
             })
     }
 
     render() {
-
         return (
             <div className="login">
                 <form className="loginForm" onSubmit={this.handleSubmit}>

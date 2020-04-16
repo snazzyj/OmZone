@@ -23,12 +23,9 @@ class Homepage extends Component {
                         <Timer />
                     </Fragment>
                     : <Fragment>
-
-                        {/* <div className="navbar"> */}
                         <nav className="navbar">
                             <Login />
                         </nav>
-                        {/* </div> */}
                         <section className="container">
                             <div className="title">
                                 <h1>Om Zone</h1>
