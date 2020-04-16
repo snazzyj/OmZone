@@ -7,13 +7,20 @@
     margin-top: 20px;
 }
 
-.profileNav > a > span{
+.timerLink {
     font-size: 24px;
-    padding-left: 5px;
+    padding-left: 10px;
+    text-decoration: none;
 }
 
+.logout {
+    font-size: 24px;
+    padding-left: 10px;
+    text-decoration: none;
+}
 .profileNav > a:hover {
     color: black;
+    text-decoration: underline;
 }
 
 /* Main Container for Profile  */
@@ -52,9 +59,15 @@
     margin-right: auto;
     padding: 0 10px;
 }
-  
+
+@media only screen and (max-width: 1000px){
+    .profileNav {
+        width: 80%;
+    }
+}
+
 @media only screen and (max-width: 730px) {
-    .profileSection {
+    .profile {
         width: 90%;
         margin-left: auto;
         margin-right: auto;

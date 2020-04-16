@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import TokenService from '../services/token-service'
 import BarGraph from '../bargraph/bargraph';
 import MeditationContext from '../meditationcontext';
 import './profile.css'
@@ -10,10 +9,6 @@ import '../timer/timer.css'
 class Profile extends Component {
 
     static contextType = MeditationContext;
-
-    state = {
-        urlName: ''
-    }
 
     count7DayTotalMinutes = (user) => {
 
@@ -47,17 +42,11 @@ class Profile extends Component {
         }
     }
 
-    showText = () => {
-        this.setState({
-            urlName: 'Timer'
-        })
-    }
-
-    hideText = () => {
-        this.setState({
-            urlName: ''
-        })
-    }
+    handleLogout = (e) => {
+        e.preventDefault();
+        TokenService.clearAuthToken();
+        this.context.setUserLogout();
+      }
 
     render() {
         const { user } = this.context;
@@ -66,15 +55,16 @@ class Profile extends Component {
         return (
             <Fragment>
                 <div className="profileNav fadeIn">
-                <Link to='/' onMouseEnter={this.showText} onMouseLeave={this.hideText}>
-                        <FontAwesomeIcon icon={faArrowCircleLeft} size='2x'/>
-                        <span>
-                        {this.state.urlName}
-                        </span>
+                    <Link to='/' className="timerLink">
+                            Timer
+                    </Link>
+
+                    <Link className="logout" to="/" onClick={this.handleLogout}>
+                        Logout
                     </Link>
                 </div>
                 <section className="profile  fadeIn">
-                        <BarGraph />
+                    <BarGraph />
                     <section className="stats">
                         <h1>Stats</h1>
                         <div className="lifetime">

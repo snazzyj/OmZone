@@ -16,8 +16,8 @@ class BarGraph extends Component {
                     data={medData}
                     margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
                 >
-                    <XAxis dataKey="date_published" tick={{ fill: 'black' }}>
-                        <Label value="Date" position="insideBottom" offset={-5}/>    
+                    <XAxis dataKey="date_published">
+                        <Label value="Meditation Sessions" position="insideBottom" offset={-5} fontSize={20} />    
                     </XAxis>
 
                     <YAxis tickCount={7} tick={{fontSize: 15}} 
@@ -32,7 +32,7 @@ class BarGraph extends Component {
                             fontSize={25}
                             verticalAnchor='end'
                         >
-                            Time Spent Meditating
+                            Minutes
                     </Text>
                     } />
                     <Tooltip />
