@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import UIFx from 'uifx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeMute, faVolumeDown, faPlay, faStopwatch, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeMute, faVolumeDown, faPlay, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import Completed from '../completed/completed';
 import MeditationContext from '../meditationcontext';
+import TokenService from '../services/token-service'
 import Sounds from './sounds';
 import Background from './background';
 import bellAudio from '../assests/soundcues/337048__shinephoenixstormcrow__131348-kaonaya-bell-at-daitokuji-temple-kyoto-modified.mp3';
@@ -26,7 +27,7 @@ function TimeView(props) {
 }
 
 function CurrentSelection(props) {
-  const { sound, background, song } = props;
+  const { sound, background, isMuted } = props;
   return (
     <div className="currentSelection">
       <h3>Current Selected Options</h3>
@@ -35,8 +36,8 @@ function CurrentSelection(props) {
         <p>{sound}</p>
       </div>
       <div>
-        <p>Song</p>
-        <p>{song ? song : 'None Selected'}</p>
+        <p>Ambiance</p>
+        <p>{isMuted ? 'Off' : 'On'}</p>
       </div>
       <div>
         <p>Background</p>
@@ -107,7 +108,7 @@ class Timer extends Component {
     }
     this.state = {
       time: {},
-      seconds: 0,
+      seconds: 300,
       soundCue: bell,
       soundChoice: 'Bell',
       background: '',
@@ -118,11 +119,10 @@ class Timer extends Component {
       isStarted: false,
       isCompleted: false,
       visible: true,
-      urlName: '',
       error: ''
     };
     this.timer = 0;
-    this.desiredTime = 0;
+    this.desiredTime = 5;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
   }
@@ -159,7 +159,9 @@ class Timer extends Component {
     })
   }
 
-  //starts the timer, and background sound
+  //starts the countdown timer
+  //playing the audio cue to begin and playing a background
+  //song if there is one
   startTimer = () => {
     const { soundCue, backgroundSound, isMuted } = this.state
 
@@ -182,6 +184,9 @@ class Timer extends Component {
     }
   }
 
+  //converts seconds into minutes and seconds
+  //checks to see if the time is less than 10
+  //appends a 0 if it is
   secondsToTime(secs) {
     let divisor_for_minutes = secs % (60 * 60);
     let minutes = Math.floor(divisor_for_minutes / 60);
@@ -208,11 +213,15 @@ class Timer extends Component {
       seconds: seconds,
     });
 
-    if (backgroundSound !== null && backgroundSound.duration < 5) {
+    if (backgroundSound !== null && backgroundSound.duration < 7) {
       this.fadeOut();
     }
 
     // Check if we're at zero.
+    //if we are, and there is a song,
+    //fade the song out and set current time to 0
+    //otherwise clear the intervals and play the sound cue
+    //to signal the end
     if (seconds === 0) {
       if (backgroundSound !== null) {
         this.endSong().then(() => {
@@ -231,6 +240,7 @@ class Timer extends Component {
     }
   }
 
+  //fades in background audio at a slow pace over 5 seconds
   fadeIn = () => {
     const { backgroundSound } = this.state;
     if (backgroundSound.volume) {
@@ -248,6 +258,7 @@ class Timer extends Component {
     };
   };
 
+  //fades out the background audio within 5 seconds
   fadeOut = () => {
     const { backgroundSound } = this.state;
 
@@ -266,6 +277,8 @@ class Timer extends Component {
     };
   };
 
+  //returns a promise when the song volume has been faded
+  //out to 0 over 5 seconds
   endSong = () => {
     const { backgroundSound } = this.state;
 
@@ -325,38 +338,33 @@ class Timer extends Component {
     }
   }
 
-  showText = () => {
-    this.setState({
-      urlName: 'Profile'
-    })
-  }
-
-  hideText = () => {
-    this.setState({
-      urlName: ''
-    })
-  }
-
   closeCompletedBox = () => {
     this.setState({
       isCompleted: false
     })
-    this.desiredTime = 0;
+    this.desiredTime = 5;
+  }
+
+  handleLogout = (e) => {
+    e.preventDefault();
+    TokenService.clearAuthToken();
+    this.context.setUserLogout();
   }
 
   render() {
-    const { isStarted, soundChoice, songChoice, backgroundChoice } = this.state;
+    const { isStarted, soundChoice, backgroundChoice, isMuted } = this.state;
     const { id } = this.context.user
     return (
       <Fragment>
 
 
         <div className="timerNav fadeIn">
-          <Link to={`/profile/${id}`} onMouseEnter={this.showText} onMouseLeave={this.hideText}>
-            <span>
-              {this.state.urlName}
-            </span>
-            <FontAwesomeIcon icon={faArrowCircleRight} size="2x" />
+          <Link className="profileLink" to={`/profile/${id}`} >
+              Profile
+          </Link>
+
+          <Link className="logout" to="/" onClick={this.handleLogout}>
+            Logout
           </Link>
         </div>
         <section className="timer fadeIn">
@@ -375,13 +383,13 @@ class Timer extends Component {
 
           <div className={!isStarted ? "input fadeIn" : "fadeOut" }>
             <label>Desired Time</label>
-            <input className="time" type="text" onChange={this.setTime} maxLength="2" size="2" placeholder="10" required />
+            <input className="time" type="number" onChange={this.setTime} min="1" max="60" placeholder={5} required />
             <p>{this.state.error}</p>
           </div>
 
           <div className={!isStarted ? "selections fadeIn" : "fadeOut" }>
 
-            <CurrentSelection sound={soundChoice} background={backgroundChoice} song={songChoice} />
+            <CurrentSelection sound={soundChoice} background={backgroundChoice} isMuted={isMuted}  />
             <div className="options">
 
 

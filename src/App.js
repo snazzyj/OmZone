@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import {activateKeepAwake} from 'expo-keep-awake';
+import { activateKeepAwake } from 'expo-keep-awake';
 import MeditationContext from './meditationcontext';
 import Profile from './profile/profile'
 import Homepage from './homepage/homepage';
@@ -24,6 +24,7 @@ class App extends Component {
   }
 
   //calls setAwakeStatus upon intial render
+  //updates user state
   componentDidMount() {
     this.setAwakeStatus();
     const user = JSON.parse(localStorage.getItem('user'))
@@ -34,7 +35,7 @@ class App extends Component {
     };
   }
   componentDidUpdate(prevState) {
-    if(this.state.user !== prevState.user) {
+    if (this.state.user !== prevState.user) {
       localStorage.setItem('user', JSON.stringify(this.state.user))
     }
   }
@@ -52,27 +53,43 @@ class App extends Component {
     })
     localStorage.setItem('user', JSON.stringify(this.state.user));
   }
-  
+
+  //clears state and local storage on logout
+  setUserLogout = () => {
+    this.setState({
+      user: {
+        isLoggedIn: false,
+        id: '',
+        medData: [],
+        lifetime: {},
+        totalTime: 0
+      }
+    });
+    localStorage.removeItem('user');
+  }
+
   //counts the total minutes
   countTotalMinutes = (array) => {
-    if(array.length === 0) {return 0}
-    return array.reduce((a,b) => ({minutes: a.minutes + b.minutes}));
+    if (array.length === 0) { return 0 }
+    return array.reduce((a, b) => ({ minutes: a.minutes + b.minutes }));
   }
-  
+
   //convert total mins into days, hours, min format
   convertMinutes = (number) => {
-    if(number === 0) {return 0}
+    if (number === 0) { return 0 }
     let days = Math.floor(number / 1440);
     let hours = Math.floor((number % 1440) / 60);
     let mins = number % 60;
 
-    return {days, hours, mins}
+    return { days, hours, mins }
   }
 
   //updates the user state obj upon completing a meditation
+  //removes the first element which is the oldest piece of data
+  //adds in the new log
   updateUserData = (newLog) => {
-    let {medData, totalTime} = this.state.user;
-    const {minutes} = newLog
+    let { medData, totalTime } = this.state.user;
+    const { minutes } = newLog
     let newTotal = totalTime + minutes;
     let updated = medData;
 
@@ -93,8 +110,8 @@ class App extends Component {
 
   //tells mobile phones to stay awake
   setAwakeStatus = () => {
-    const {shouldBeAwake} = this.state
-    if(shouldBeAwake) {
+    const { shouldBeAwake } = this.state
+    if (shouldBeAwake) {
       activateKeepAwake();
     }
   }
@@ -103,7 +120,8 @@ class App extends Component {
     const contextValue = {
       user: this.state.user,
       setUserLogin: this.setUserLogin,
-      updateUserData: this.updateUserData
+      updateUserData: this.updateUserData,
+      setUserLogout: this.setUserLogout
     }
 
     return (
@@ -113,7 +131,7 @@ class App extends Component {
           <MeditationContext.Provider value={contextValue}>
             <main>
               <Switch>
-                <Route exact path="/" component={Homepage}/>
+                <Route exact path="/" component={Homepage} />
                 <Route path="/profile/:id" component={Profile} />
               </Switch>
             </main>

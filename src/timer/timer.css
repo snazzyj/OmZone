@@ -6,13 +6,21 @@
     margin-top: 10px;
 }
 
-.timerNav > a > span{
+.profileLink {
     font-size: 24px;
-    padding-right: 5px;
+    padding-right: 10px;
+    text-decoration: none;
+}
+
+.logout {
+    font-size: 24px;
+    padding-left: 10px;
+    text-decoration: none;
 }
 
 .timerNav > a:hover {
     color: black;
+    text-decoration: underline;
 }
 
 /* Main Container */
@@ -218,6 +226,10 @@
 }
 
 @media only screen and (max-width: 1240px) {
+    .timerNav {
+        width: 50%;
+    }
+
     .timer {
         width: 50%;
     }
@@ -228,7 +240,7 @@
 }
 
 @media only screen and (max-width: 740px) {
-    .timer {
+    .timer, .timerNav {
         width: 65%;
     }
     .completed {
@@ -237,7 +249,7 @@
 }
 
 @media only screen and (max-width: 560px) {
-    .timer {
+    .timer, .timerNav {
         width: 90%;
     }
     .completed {
