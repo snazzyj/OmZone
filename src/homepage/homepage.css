@@ -107,6 +107,14 @@ nav {
     margin-top: 30px;
 }
 
+.description {
+    padding-top: 5px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+}
+
 .demoInfo > button {
     padding:  15px 20px;
     margin-top: 15px;
