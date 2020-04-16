@@ -10,7 +10,7 @@ class BarGraph extends Component {
         const { medData } = this.context.user
         return (
             <div>
-
+                <h2>Time Spent Meditating</h2>
                 <ResponsiveContainer width='100%' height={500}>
                 <BarChart
                     data={medData}
