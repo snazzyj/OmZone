@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import UIFx from 'uifx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeMute, faVolumeDown, faPlay, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeMute, faVolumeDown, faPlay } from '@fortawesome/free-solid-svg-icons';
 import Completed from '../completed/completed';
 import MeditationContext from '../meditationcontext';
 import TokenService from '../services/token-service'
@@ -360,7 +360,7 @@ class Timer extends Component {
 
         <div className="timerNav fadeIn">
           <Link className="profileLink" to={`/profile/${id}`} >
-              Profile
+            Profile
           </Link>
 
           <Link className="logout" to="/" onClick={this.handleLogout}>
@@ -368,28 +368,17 @@ class Timer extends Component {
           </Link>
         </div>
         <section className="timer fadeIn">
-          <div className="countDown">
-            <label>
-              <FontAwesomeIcon icon={faStopwatch} size="4x" />
-            </label>
-            <TimeView time={this.state.time} />
-          </div>
 
-          <div className={!isStarted ? "start fadeIn" : "fadeOut"}>
-            <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
-              <FontAwesomeIcon icon={faPlay} size="2x" />
-            </button>
-          </div>
 
-          <div className={!isStarted ? "input fadeIn" : "fadeOut" }>
+          <div className={!isStarted ? "input fadeIn" : "fadeOut"}>
             <label>Desired Time</label>
             <input className="time" type="number" onChange={this.setTime} min="1" max="60" placeholder={5} required />
             <p>{this.state.error}</p>
           </div>
 
-          <div className={!isStarted ? "selections fadeIn" : "fadeOut" }>
+          <div className={!isStarted ? "selections fadeIn" : "fadeOut"}>
 
-            <CurrentSelection sound={soundChoice} background={backgroundChoice} isMuted={isMuted}  />
+            <CurrentSelection sound={soundChoice} background={backgroundChoice} isMuted={isMuted} />
             <div className="options">
 
 
@@ -410,12 +399,21 @@ class Timer extends Component {
 
             </div>
           </div>
+            <div className="countDown">
+              <TimeView time={this.state.time} />
+            </div>
+            <div className={!isStarted ? "start fadeIn" : "fadeOut"}>
+              <button className="startBtn" onClick={this.startTimer} disabled={isStarted}>
+                <FontAwesomeIcon icon={faPlay} size="4x" />
+              </button>
+            </div>
 
-            {this.state.isCompleted &&
-          <div className="completed">
-                <Completed minutes={this.desiredTime} id={this.context.user.id} closeCompletedBox={this.closeCompletedBox} />
-          </div>
-            }
+
+          {this.state.isCompleted &&
+            <div className="completed">
+              <Completed minutes={this.desiredTime} id={this.context.user.id} closeCompletedBox={this.closeCompletedBox} />
+            </div>
+          }
         </section>
       </Fragment>
     );

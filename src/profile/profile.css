@@ -18,8 +18,17 @@
     padding-left: 10px;
     text-decoration: none;
 }
+
+.profileNav > a {
+    color: gold;
+}
+
+.profileNav > a:visited {
+    color: gold;
+}
+
 .profileNav > a:hover {
-    color: black;
+    color: white;
     text-decoration: underline;
 }
 
@@ -28,18 +37,18 @@
     width: 66%;
     margin-left: auto;
     margin-right: auto;
-    color: black;
+    color: gold;
 }
 
 /* Stats styling */
 .stats {
     width: 100%;
-    color: rgb(0, 0, 0) ;
+    color: gold;
     margin-top: 50px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .stats > h1 {

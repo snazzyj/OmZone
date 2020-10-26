@@ -15,6 +15,7 @@ class BarGraph extends Component {
                 <BarChart
                     data={medData}
                     margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
+                    fill="#FFD700"
                 >
                     <XAxis dataKey="date_published">
                         <Label value="Meditation Sessions" position="insideBottom" offset={-5} fontSize={20} />    
@@ -36,7 +37,7 @@ class BarGraph extends Component {
                     </Text>
                     } />
                     <Tooltip />
-                    <Bar dataKey="minutes" fill="#8884d8" />
+                    <Bar dataKey="minutes" fill="#FFD700" />
                 </BarChart>
                 </ResponsiveContainer>
             </div>

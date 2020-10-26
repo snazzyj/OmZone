@@ -12,7 +12,8 @@
 
 /* Nav Bar Styling where the Login form sits */
 .navbar {
-    background: rgb(255,255,255, 0.6);
+    /* background: rgb(255,255,255, 0.6); */
+    background: rgb(0,0,0, 0.6);
     height: 50px;
 }
 
@@ -43,7 +44,8 @@ nav {
 /* Sign up box */
 .signupSection {
     width: 300px;
-    background: rgb(255,255,255, 0.6);
+    background: rgb(0,0,0, 0.6);
+    /* background: rgb(255,255,255, 0.6); */
     min-height: 360px;
 }
 
@@ -100,7 +102,8 @@ nav {
 
 /* Demo Information */
 .demoInfo {
-    background: rgb(255,255,255, 0.6);
+    /* background: rgb(255,255,255, 0.6); */
+    background: rgb(0,0,0, 0.6);
     width: 980px;
     margin-left: auto;
     margin-right: auto;
@@ -131,6 +134,7 @@ nav {
 .popup-content {
     text-align: left;
     width: 250px;
+    color: black;
 }
 
 .popup-content > ol {
