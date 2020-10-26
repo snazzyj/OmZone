@@ -15,9 +15,6 @@ Om Zone is all about zen and relaxation. It allows users to get into a good rhyt
 **Timer without a background** :
 ![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/timer.png)
 
-**Timer with a background** :
-![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/timer1.png)
-
 **Profile**:
 ![alt text](https://github.com/snazzyj/OmZone/blob/master/screenshots/profile.png)
 
